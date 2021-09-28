@@ -20,7 +20,7 @@ namespace WhatsAppWeb
         {
             if (Arquivos == null || (Arquivos?.Count ?? 0 ) == 0) 
             {
-                Arquivos = Directory.GetFiles($"{Environment.CurrentDirectory}\\Arquivos").ToList();
+                Arquivos = Directory.GetFiles(busca.DiretorioArquivos).ToList();
             }
 
             return Arquivos.Find(f =>
