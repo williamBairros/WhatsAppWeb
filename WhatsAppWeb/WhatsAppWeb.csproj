@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuscarArquivo.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Contato.cs" />
     <Compile Include="Program.cs" />

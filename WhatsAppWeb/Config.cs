@@ -8,6 +8,8 @@ namespace WhatsAppWeb
 {
     public class Config
     {
-        public TimeSpan Interval { get; set; }
+        public TimeSpan Intervalo { get; set; }
+
+        public BuscarArquivo BuscarArquivos { get; set; } 
     }
 }
