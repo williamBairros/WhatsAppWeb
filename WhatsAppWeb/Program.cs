@@ -35,7 +35,7 @@ namespace WhatsAppWeb
                                 AtualizaEnvioContato(c);
                             }
 
-                            var arquivo = $"{Environment.CurrentDirectory}\\Arquivos\\{c.Nome}_{c.Telefone}.txt";
+                            var arquivo = $"{Environment.CurrentDirectory}\\Arquivos\\{c.Nome}_{c.Telefone}.pdf";
                             if (File.Exists(arquivo) && !c.ArquivoEnviado)
                             {
                                 EnviarArquivo(driver, c);
@@ -119,7 +119,7 @@ namespace WhatsAppWeb
             }
 
             var input = driver.SecureFind(By.CssSelector("input[type='file']"));
-            input.SendKeys($"{Environment.CurrentDirectory}\\Arquivos\\{contato.Nome}_{contato.Telefone}.txt");
+            input.SendKeys($"{Environment.CurrentDirectory}\\Arquivos\\{contato.Nome}_{contato.Telefone}.pdf");
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
         }
 
