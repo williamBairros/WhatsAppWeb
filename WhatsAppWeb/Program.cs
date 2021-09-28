@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Newtonsoft.Json;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace WhatsAppWeb
     {
         static void Main(string[] args)
         {
+            var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+
             using (var driver = new ChromeDriver()) 
             {
                 var contatos = CarregarContatos().Where(c => !c.ArquivoEnviado).ToList();
@@ -51,6 +54,7 @@ namespace WhatsAppWeb
                         }
                     }
 
+                    System.Threading.Thread.Sleep(config.Interval);
                 });
 
                 while (true)
