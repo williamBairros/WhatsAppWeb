@@ -38,7 +38,7 @@ namespace WhatsAppWeb
                                 AtualizaEnvioContato(c);
                             }
 
-                            var arquivo = $"{Environment.CurrentDirectory}\\Arquivos\\{c.Nome}_{c.Telefone}.pdf";
+                            var arquivo = $"{Environment.CurrentDirectory}\\Arquivos\\{c.Cpf}.pdf";
                             if (File.Exists(arquivo) && !c.ArquivoEnviado)
                             {
                                 EnviarArquivo(driver, c);
@@ -107,8 +107,6 @@ namespace WhatsAppWeb
         private static void EnviarArquivo(ChromeDriver driver, Contato contato)
         {
             AnexarButtonClick(driver);
-
-
             IEnumerable<IWebElement> elements = null;
             while (elements?.Where(e => e.SecureGetAttribute("accept") == "*")?.FirstOrDefault() == null)
             {
@@ -123,7 +121,7 @@ namespace WhatsAppWeb
             }
 
             var input = driver.SecureFind(By.CssSelector("input[type='file']"));
-            input.SendKeys($"{Environment.CurrentDirectory}\\Arquivos\\{contato.Nome}_{contato.Telefone}.pdf");
+            input.SendKeys($"{Environment.CurrentDirectory}\\Arquivos\\{contato.Cpf}.pdf");
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
         }
 
@@ -169,18 +167,18 @@ namespace WhatsAppWeb
                 }
                 var campos = linha.Split(new char[] { ';' });
 
-                var contato = new Contato() { Nome = campos[0], Telefone = campos[1] };
-                if (campos.Length > 2) 
-                {
-                    contato.Mensagem = campos[2];
-                }
+                var contato = new Contato() { Cpf = campos[0], Nome = campos[1], Telefone = campos[2] };
                 if (campos.Length > 3) 
                 {
-                    contato.MensagemEnviada = campos[3]?.Trim() == "1";
+                    contato.Mensagem = campos[3];
                 }
-                if (campos.Length > 4)
+                if (campos.Length > 4) 
                 {
-                    contato.ArquivoEnviado = campos[4]?.Trim() == "1";
+                    contato.MensagemEnviada = campos[4]?.Trim() == "1";
+                }
+                if (campos.Length > 5)
+                {
+                    contato.ArquivoEnviado = campos[5]?.Trim() == "1";
                 }
 
                 ret.Add(contato);

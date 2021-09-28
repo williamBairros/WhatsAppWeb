@@ -31,11 +31,11 @@ namespace GerarVcf
             var sb = new StringBuilder();
             sb.AppendLine("BEGIN: VCARD");
             sb.AppendLine("VERSION:3.0");
-            var nomeSeparado = campos[0].Split(' ').ToList();
+            var nomeSeparado = campos[1].Split(' ').ToList();
             nomeSeparado.Reverse();
             sb.AppendLine($"N:{string.Join(";", nomeSeparado)}");
-            sb.AppendLine($"FN:{campos[0].Split(' ')[0]}");
-            sb.AppendLine($"TEL;TYPE=CELL:{campos[1]}");
+            sb.AppendLine($"FN:{campos[1].Split(' ')[0]}");
+            sb.AppendLine($"TEL;TYPE=CELL:{campos[2]}");
             sb.Append("END:VCARD");
             return sb.ToString();
         }
