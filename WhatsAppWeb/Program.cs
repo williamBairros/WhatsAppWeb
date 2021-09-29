@@ -18,7 +18,7 @@ namespace WhatsAppWeb
             try
             {
                 var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-                var contatos = CarregarContatos().Where(c => !c.ArquivoEnviado || !c.MensagemEnviada).ToList();
+                var contatos = CarregarContatos().Where(c => !c.ArquivosEnviados || !c.MensagemEnviada).ToList();
 
                 using (var driver = new ChromeDriver())
                 {
@@ -40,13 +40,22 @@ namespace WhatsAppWeb
                                     AtualizarEnvioContato(c);
                                 }
 
-                                var arquivo = c.BuscarArquivo(config.BuscarArquivos);
-                                if (arquivo != null && File.Exists(arquivo) && !c.ArquivoEnviado)
+                                var arquivos = c.BuscarArquivos(config.BuscarArquivos);
+                                foreach (var arquivo in arquivos)
                                 {
-                                    EnviarArquivo(driver, c, arquivo);
-                                    c.ArquivoEnviado = true;
+                                    if (arquivo != null && File.Exists(arquivo) && !c.ArquivosEnviados)
+                                    {
+                                        EnviarArquivo(driver, c, arquivo);
+                                    }
+                                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                                }
+
+                                if (arquivos.Count > 0)
+                                {
+                                    c.ArquivosEnviados = true;
                                     AtualizarEnvioContato(c);
                                 }
+
                                 break;
                             }
                             catch (Exception ex)
@@ -97,14 +106,14 @@ namespace WhatsAppWeb
         {
             var linhas = File.ReadAllLines("contatos.csv", Encoding.UTF8).ToList();
             var index = linhas.FindIndex(l => l.Split(';')[0] == c.Cpf);
-            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem1};{c.Mensagem2};{c.Mensagem3};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivoEnviado ? "1": "0")}";
+            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem1};{c.Mensagem2};{c.Mensagem3};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivosEnviados ? "1": "0")}";
             File.WriteAllLines("contatos.csv", linhas, Encoding.UTF8);
         }
 
         private static void SetarContato(Contato c, ChromeDriver driver, IWebElement seachText)
         {
             seachText.Clear();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             seachText.SendKeys(c.Nome);
             VerificandoContatoSelecionado(driver, c);
         }
@@ -191,7 +200,7 @@ namespace WhatsAppWeb
                 }
                 if (campos.Length > 7)
                 {
-                    contato.ArquivoEnviado = campos[7]?.Trim() == "1";
+                    contato.ArquivosEnviados = campos[7]?.Trim() == "1";
                 }
 
                 ret.Add(contato);

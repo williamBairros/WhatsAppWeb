@@ -14,18 +14,18 @@ namespace WhatsAppWeb
         public string Mensagem2 { get; set; }
         public string Mensagem3 { get; set; }
         public bool MensagemEnviada { get; set; }
-        public bool ArquivoEnviado { get; set; }
+        public bool ArquivosEnviados { get; set; }
 
 
         public static List<string> Arquivos = null;
-        public string BuscarArquivo(BuscarArquivo busca) 
+        public List<string> BuscarArquivos(BuscarArquivo busca) 
         {
             if (Arquivos == null || (Arquivos?.Count ?? 0 ) == 0) 
             {
                 Arquivos = Directory.GetFiles(busca.DiretorioArquivos).ToList();
             }
 
-            return Arquivos.Find(f =>
+            return Arquivos.FindAll(f =>
             {
                 var camposArquivos = Path.GetFileNameWithoutExtension(f).Split(busca.Delimitador.ToCharArray());
 
