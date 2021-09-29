@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WhatsAppWeb
@@ -14,53 +15,58 @@ namespace WhatsAppWeb
     {
         static void Main(string[] args)
         {
-            var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var contatos = CarregarContatos().Where(c => !c.ArquivoEnviado || !c.MensagemEnviada).ToList();
-
-            using (var driver = new ChromeDriver()) 
+            try
             {
-                driver.Navigate().GoToUrl("https://web.whatsapp.com/");
-                var seachText = WaitLogin(driver);
+                var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+                var contatos = CarregarContatos().Where(c => !c.ArquivoEnviado || !c.MensagemEnviada).ToList();
 
-                contatos.ForEach(c =>
+                using (var driver = new ChromeDriver())
                 {
-                    var tentativas = 3;
-                    while (tentativas > 0)
+                    driver.Navigate().GoToUrl("https://web.whatsapp.com/");
+                    var seachText = WaitLogin(driver);
+
+                    contatos.ForEach(c =>
                     {
-                        try
+                        var tentativas = 3;
+                        while (tentativas > 0)
                         {
-                            SetarContato(c, driver, seachText);
-                            if (!string.IsNullOrEmpty(c.Mensagem) && !c.MensagemEnviada)
+                            try
                             {
-                                EnviadoMensagem(driver, c);
-                                c.MensagemEnviada = true;
-                                AtualizarEnvioContato(c);
-                            }
+                                SetarContato(c, driver, seachText);
+                                if (!string.IsNullOrEmpty(c.DefinirMensagem()) && !c.MensagemEnviada)
+                                {
+                                    EnviadoMensagem(driver, c);
+                                    c.MensagemEnviada = true;
+                                    AtualizarEnvioContato(c);
+                                }
 
-                            var arquivo = c.BuscarArquivo(config.BuscarArquivos);
-                            if (arquivo != null && File.Exists(arquivo) && !c.ArquivoEnviado)
+                                var arquivo = c.BuscarArquivo(config.BuscarArquivos);
+                                if (arquivo != null && File.Exists(arquivo) && !c.ArquivoEnviado)
+                                {
+                                    EnviarArquivo(driver, c, arquivo);
+                                    c.ArquivoEnviado = true;
+                                    AtualizarEnvioContato(c);
+                                }
+                                break;
+                            }
+                            catch (Exception ex)
                             {
-                                EnviarArquivo(driver, c, arquivo);
-                                c.ArquivoEnviado = true;
-                                AtualizarEnvioContato(c);
+                                tentativas--;
+                                try
+                                {
+                                    ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
+                                }
+                                catch { }
                             }
-                            break;
                         }
-                        catch (Exception ex)
-                        {
-                            tentativas--;
-                            ExceptionToFile(ex);
-                        }
-                    }
 
-                    System.Threading.Thread.Sleep(config.Intervalo);
-                });
-
-                while (true)
-                {
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                        Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax+1)));
+                    });
                 }
-
+            }
+            catch(Exception ex) 
+            {
+                ExceptionToFile(ex);
             }
         }
 
@@ -91,7 +97,7 @@ namespace WhatsAppWeb
         {
             var linhas = File.ReadAllLines("contatos.csv", Encoding.UTF8).ToList();
             var index = linhas.FindIndex(l => l.Split(';')[0] == c.Cpf);
-            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivoEnviado ? "1": "0")}";
+            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem1};{c.Mensagem2};{c.Mensagem3};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivoEnviado ? "1": "0")}";
             File.WriteAllLines("contatos.csv", linhas, Encoding.UTF8);
         }
 
@@ -126,7 +132,7 @@ namespace WhatsAppWeb
 
         private static void EnviadoMensagem(ChromeDriver driver, Contato contato)
         {
-            driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.Mensagem);
+            driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
         }
 
@@ -169,15 +175,23 @@ namespace WhatsAppWeb
                 var contato = new Contato() { Cpf = campos[0], Nome = campos[1], Telefone = campos[2] };
                 if (campos.Length > 3) 
                 {
-                    contato.Mensagem = campos[3];
+                    contato.Mensagem1 = campos[3];
                 }
-                if (campos.Length > 4) 
+                if (campos.Length > 4)
                 {
-                    contato.MensagemEnviada = campos[4]?.Trim() == "1";
+                    contato.Mensagem2 = campos[4];
                 }
                 if (campos.Length > 5)
                 {
-                    contato.ArquivoEnviado = campos[5]?.Trim() == "1";
+                    contato.Mensagem3 = campos[5];
+                }
+                if (campos.Length > 6) 
+                {
+                    contato.MensagemEnviada = campos[6]?.Trim() == "1";
+                }
+                if (campos.Length > 7)
+                {
+                    contato.ArquivoEnviado = campos[7]?.Trim() == "1";
                 }
 
                 ret.Add(contato);

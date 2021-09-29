@@ -10,9 +10,11 @@ namespace WhatsAppWeb
         public string Cpf { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
-        public string Mensagem { get; internal set; }
-        public bool MensagemEnviada { get; internal set; }
-        public bool ArquivoEnviado { get; internal set; }
+        public string Mensagem1 { get; set; }
+        public string Mensagem2 { get; set; }
+        public string Mensagem3 { get; set; }
+        public bool MensagemEnviada { get; set; }
+        public bool ArquivoEnviado { get; set; }
 
 
         public static List<string> Arquivos = null;
@@ -55,5 +57,31 @@ namespace WhatsAppWeb
             return property?.GetValue(this)?.ToString();
         }
 
+        public string DefinirMensagem()
+        {
+            Dictionary<int, string> dic = new Dictionary<int, string>();
+
+            if (!string.IsNullOrEmpty(Mensagem1))
+            {
+                dic.Add(1, Mensagem1);
+            }
+            
+            if (!string.IsNullOrEmpty(Mensagem2))
+            {
+                dic.Add(2, Mensagem2);
+            }
+            
+            if (!string.IsNullOrEmpty(Mensagem3)) 
+            {
+                dic.Add(3, Mensagem3);
+            }
+
+            if (dic.Count > 0) 
+            {
+                return dic[new Random().Next(dic.Keys.Min(), dic.Keys.Max()+1)];
+            }
+
+            return null;
+        }
     }
 }
