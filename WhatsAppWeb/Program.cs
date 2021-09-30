@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WhatsAppWeb
 {
@@ -113,8 +112,8 @@ namespace WhatsAppWeb
         private static void SetarContato(Contato c, ChromeDriver driver, IWebElement seachText)
         {
             seachText.Clear();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
             seachText.SendKeys(c.Nome);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             VerificandoContatoSelecionado(driver, c);
         }
 
@@ -150,14 +149,13 @@ namespace WhatsAppWeb
             IEnumerable<IWebElement> contatos = null;
             while (contatos?.Where(e => e.SecureGetAttribute("Title") == c.Nome)?.FirstOrDefault() == null)
             {
-                Console.Clear();
                 try
                 {
                     contatos = driver.FindElements(By.TagName("span"));
                 }
                 catch { }
 
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             contatos.Where(e => e.SecureGetAttribute("Title") == c.Nome).FirstOrDefault().Click();
         }
