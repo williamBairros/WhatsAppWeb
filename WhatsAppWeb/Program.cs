@@ -157,6 +157,7 @@ namespace WhatsAppWeb
 
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
+            contatos = driver.FindElements(By.TagName("span"));
             contatos.Where(e => e.SecureGetAttribute("Title") == c.Nome).FirstOrDefault().Click();
         }
 
