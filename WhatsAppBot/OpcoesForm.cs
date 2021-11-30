@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WhatsAppBot.Enuns;
 
@@ -114,14 +109,17 @@ namespace WhatsAppBot
 
         public void CarregarConfiguracao() 
         {
-            var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            intervaloMaximoiNumericUpDown.Value = config.IntervaloMax;
-            intervaloMinimoNumericUpDown.Value = config.IntervaloMin;
-            segundosDeProcuraNumericUpDown.Value = config.SegundosDeProcura;
-            tipoProcuraComboBox.SelectedItem = config?.TipoDeProcura;
-            delimitadorTextBox.Text = config?.BuscarArquivos?.Delimitador;
-            diretorioArquivosTextBox.Text = config?.BuscarArquivos?.DiretorioArquivos;
-            config?.BuscarArquivos?.Campos?.Values?.ToList().ForEach(c => camposListBox.Items.Add(c));
+            if (File.Exists("config.json"))
+            {
+                var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+                intervaloMaximoiNumericUpDown.Value = config.IntervaloMax;
+                intervaloMinimoNumericUpDown.Value = config.IntervaloMin;
+                segundosDeProcuraNumericUpDown.Value = config.SegundosDeProcura;
+                tipoProcuraComboBox.SelectedItem = config?.TipoDeProcura;
+                delimitadorTextBox.Text = config?.BuscarArquivos?.Delimitador;
+                diretorioArquivosTextBox.Text = config?.BuscarArquivos?.DiretorioArquivos;
+                config?.BuscarArquivos?.Campos?.Values?.ToList().ForEach(c => camposListBox.Items.Add(c));
+            }
         }
 
         private void OpcoesForm_FormClosing(object sender, FormClosingEventArgs e)
