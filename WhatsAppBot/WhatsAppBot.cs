@@ -197,17 +197,29 @@ namespace WhatsAppBot
                                     }
                                     if (c.ContatoEncontrado.HasValue && !c.ContatoEncontrado.Value)
                                     {
-                                        Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Orange; });
+                                        Invoke((MethodInvoker)delegate () 
+                                        { 
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Orange;
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                        });
                                     }
                                     else
                                     {
-                                        Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green; });
+                                        Invoke((MethodInvoker)delegate () 
+                                        { 
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green;
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                        });
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     ExceptionToFile(ex);
-                                    Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Red; });
+                                    Invoke((MethodInvoker)delegate ()
+                                    {
+                                        contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Red;
+                                        contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                    });                                  
                                 }
                             }
                         }
@@ -243,7 +255,9 @@ namespace WhatsAppBot
             linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem1};{c.Mensagem2};{c.Mensagem3};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivosEnviados ? "1" : "0")};{contatoEncontrado}";
             File.WriteAllLines("contatos.csv", linhas, Encoding.UTF8);
 
-            contatosDataGridView.Rows[indexRow].SetValues(c.ToRow());  
+            contatosDataGridView.Rows[indexRow].SetValues(c.ToRow());
+            contatosDataGridView.Refresh();
+            Application.DoEvents();
         }
 
         private void EnviadoMensagem(ChromeDriver driver, Contato contato)
