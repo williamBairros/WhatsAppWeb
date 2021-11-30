@@ -7,9 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatsAppWeb", "WhatsAppWeb\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerarVcf", "GerarVcf\GerarVcf.csproj", "{1DE83740-F22C-4DD1-AD9F-A4193018CE74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatsAppWebCore", "WhatsAppWebCore\WhatsAppWebCore.csproj", "{7CFF2A5B-88FB-4FBB-AD28-CD6024838ED6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatsAppWebCore", "WhatsAppWebCore\WhatsAppWebCore.csproj", "{7CFF2A5B-88FB-4FBB-AD28-CD6024838ED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerarVcfCore", "GerarVcfCore\GerarVcfCore.csproj", "{884A26D3-D9D8-428F-BE60-E18B0AA6B081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerarVcfCore", "GerarVcfCore\GerarVcfCore.csproj", "{884A26D3-D9D8-428F-BE60-E18B0AA6B081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatsAppBot", "WhatsAppBot\WhatsAppBot.csproj", "{437A9B16-B2FB-451C-A5BA-23A57CA2291A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{884A26D3-D9D8-428F-BE60-E18B0AA6B081}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{884A26D3-D9D8-428F-BE60-E18B0AA6B081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{884A26D3-D9D8-428F-BE60-E18B0AA6B081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{437A9B16-B2FB-451C-A5BA-23A57CA2291A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437A9B16-B2FB-451C-A5BA-23A57CA2291A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437A9B16-B2FB-451C-A5BA-23A57CA2291A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437A9B16-B2FB-451C-A5BA-23A57CA2291A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
