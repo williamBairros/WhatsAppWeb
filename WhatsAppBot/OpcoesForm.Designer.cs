@@ -49,11 +49,28 @@ namespace WhatsAppBot
             this.diretorioArquivosButton = new System.Windows.Forms.Button();
             this.diretorioArquivosTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mensagensListBox = new System.Windows.Forms.ListBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.addMensagenButton = new System.Windows.Forms.Button();
+            this.deleteMensagenButton = new System.Windows.Forms.Button();
+            this.mensagemRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.novaMenagemButton = new System.Windows.Forms.Button();
             this.x.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMinimoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMaximoiNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.segundosDeProcuraNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // x
@@ -69,10 +86,10 @@ namespace WhatsAppBot
             this.x.Controls.Add(this.groupBox1);
             this.x.Dock = System.Windows.Forms.DockStyle.Fill;
             this.x.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.x.Location = new System.Drawing.Point(0, 0);
+            this.x.Location = new System.Drawing.Point(3, 3);
             this.x.Margin = new System.Windows.Forms.Padding(4);
             this.x.Name = "x";
-            this.x.Size = new System.Drawing.Size(668, 561);
+            this.x.Size = new System.Drawing.Size(654, 524);
             this.x.TabIndex = 0;
             // 
             // label1
@@ -161,7 +178,7 @@ namespace WhatsAppBot
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 210);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(653, 344);
+            this.groupBox1.Size = new System.Drawing.Size(646, 309);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Buscar arquivos";
@@ -196,7 +213,7 @@ namespace WhatsAppBot
             this.camposListBox.ItemHeight = 18;
             this.camposListBox.Location = new System.Drawing.Point(12, 185);
             this.camposListBox.Name = "camposListBox";
-            this.camposListBox.Size = new System.Drawing.Size(333, 148);
+            this.camposListBox.Size = new System.Drawing.Size(333, 112);
             this.camposListBox.TabIndex = 10;
             this.camposListBox.SelectedIndexChanged += new System.EventHandler(this.camposListBox_SelectedIndexChanged);
             // 
@@ -272,12 +289,137 @@ namespace WhatsAppBot
             this.label5.TabIndex = 0;
             this.label5.Text = "Diretório";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(668, 561);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.x);
+            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(660, 530);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Configurações";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 27);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(660, 530);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Mensagens";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.mensagensListBox, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.29008F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.70992F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(654, 524);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // mensagensListBox
+            // 
+            this.mensagensListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mensagensListBox.FormattingEnabled = true;
+            this.mensagensListBox.ItemHeight = 18;
+            this.mensagensListBox.Location = new System.Drawing.Point(3, 146);
+            this.mensagensListBox.Name = "mensagensListBox";
+            this.mensagensListBox.Size = new System.Drawing.Size(648, 375);
+            this.mensagensListBox.TabIndex = 0;
+            this.mensagensListBox.SelectedIndexChanged += new System.EventHandler(this.mensagensListBox_SelectedIndexChanged);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.mensagemRichTextBox, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.58394F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.41606F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(648, 137);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.addMensagenButton);
+            this.flowLayoutPanel1.Controls.Add(this.deleteMensagenButton);
+            this.flowLayoutPanel1.Controls.Add(this.novaMenagemButton);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 86);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(642, 48);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // addMensagenButton
+            // 
+            this.addMensagenButton.Location = new System.Drawing.Point(3, 3);
+            this.addMensagenButton.Name = "addMensagenButton";
+            this.addMensagenButton.Size = new System.Drawing.Size(158, 45);
+            this.addMensagenButton.TabIndex = 0;
+            this.addMensagenButton.Text = "Adicionar mensagem";
+            this.addMensagenButton.UseVisualStyleBackColor = true;
+            this.addMensagenButton.Click += new System.EventHandler(this.addMensagenButton_Click);
+            // 
+            // deleteMensagenButton
+            // 
+            this.deleteMensagenButton.Enabled = false;
+            this.deleteMensagenButton.Location = new System.Drawing.Point(167, 3);
+            this.deleteMensagenButton.Name = "deleteMensagenButton";
+            this.deleteMensagenButton.Size = new System.Drawing.Size(158, 45);
+            this.deleteMensagenButton.TabIndex = 1;
+            this.deleteMensagenButton.Text = "Deletar mensagem";
+            this.deleteMensagenButton.UseVisualStyleBackColor = true;
+            this.deleteMensagenButton.Click += new System.EventHandler(this.deleteMensagenButton_Click);
+            // 
+            // mensagemRichTextBox
+            // 
+            this.mensagemRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mensagemRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.mensagemRichTextBox.Name = "mensagemRichTextBox";
+            this.mensagemRichTextBox.Size = new System.Drawing.Size(642, 77);
+            this.mensagemRichTextBox.TabIndex = 1;
+            this.mensagemRichTextBox.Text = "";
+            // 
+            // novaMenagemButton
+            // 
+            this.novaMenagemButton.Location = new System.Drawing.Point(331, 3);
+            this.novaMenagemButton.Name = "novaMenagemButton";
+            this.novaMenagemButton.Size = new System.Drawing.Size(158, 45);
+            this.novaMenagemButton.TabIndex = 2;
+            this.novaMenagemButton.Text = "Nova mensagem";
+            this.novaMenagemButton.UseVisualStyleBackColor = true;
+            this.novaMenagemButton.Click += new System.EventHandler(this.novaMenagemButton_Click);
+            // 
             // OpcoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(668, 561);
-            this.Controls.Add(this.x);
+            this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -294,6 +436,12 @@ namespace WhatsAppBot
             ((System.ComponentModel.ISupportInitialize)(this.segundosDeProcuraNumericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -320,5 +468,16 @@ namespace WhatsAppBot
         private System.Windows.Forms.Button delCampoButton;
         private System.Windows.Forms.Button addCompoButton;
         private System.Windows.Forms.ListBox camposListBox;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ListBox mensagensListBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button addMensagenButton;
+        private System.Windows.Forms.Button deleteMensagenButton;
+        private System.Windows.Forms.RichTextBox mensagemRichTextBox;
+        private System.Windows.Forms.Button novaMenagemButton;
     }
 }

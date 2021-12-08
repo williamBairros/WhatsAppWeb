@@ -10,9 +10,6 @@ namespace WhatsAppBot
         public string Cpf { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
-        public string Mensagem1 { get; set; }
-        public string Mensagem2 { get; set; }
-        public string Mensagem3 { get; set; }
         public bool MensagemEnviada { get; set; }
         public bool ArquivosEnviados { get; set; }
         public bool? ContatoEncontrado { get; set; }
@@ -23,10 +20,7 @@ namespace WhatsAppBot
             Cpf = infs[0]?.ToString();
             Nome = infs[1]?.ToString();
             Telefone = infs[2]?.ToString();
-            Mensagem1 = infs[3]?.ToString();
-            Mensagem2 = infs[4]?.ToString();
-            Mensagem3 = infs[5]?.ToString();
-            if (infs.Length >= 7 && int.TryParse(infs[6]?.ToString(), out int i) && i == 1)
+            if (infs.Length >= 4 && int.TryParse(infs[3]?.ToString(), out int i) && i == 1)
             {
                 MensagemEnviada = true;
             }
@@ -35,7 +29,7 @@ namespace WhatsAppBot
                 MensagemEnviada = false;
             }
 
-            if (infs.Length >= 8 && int.TryParse(infs[7]?.ToString(), out i) && i == 1)
+            if (infs.Length >= 5 && int.TryParse(infs[4]?.ToString(), out i) && i == 1)
             {
                 ArquivosEnviados = true;
             }
@@ -44,9 +38,9 @@ namespace WhatsAppBot
                 ArquivosEnviados = false;
             }
 
-            if (infs.Length >= 9 && !string.IsNullOrEmpty(infs[8]?.ToString()))
+            if (infs.Length >= 6 && !string.IsNullOrEmpty(infs[5]?.ToString()))
             {
-                if (int.TryParse(infs[8]?.ToString(), out i) && i == 1)
+                if (int.TryParse(infs[5]?.ToString(), out i) && i == 1)
                 {
                     ContatoEncontrado = true;
                 }
@@ -65,9 +59,6 @@ namespace WhatsAppBot
                 Cpf,
                 Nome,
                 Telefone,
-                Mensagem1,
-                Mensagem2,
-                Mensagem3,
                 MensagemEnviada,
                 ArquivosEnviados,
                 ContatoEncontrado.HasValue ? ContatoEncontrado.Value : (bool?)null
@@ -112,23 +103,16 @@ namespace WhatsAppBot
             var property = GetType().GetProperties().Where(p => p.Name.ToLower() == propertyName.ToLower()).FirstOrDefault();
             return property?.GetValue(this)?.ToString();
         }
-        public string DefinirMensagem()
+        public string DefinirMensagem(List<string> mensagens)
         {
             Dictionary<int, string> dic = new Dictionary<int, string>();
 
-            if (!string.IsNullOrEmpty(Mensagem1))
+            for (int i = 0; i < mensagens.Count; i++) 
             {
-                dic.Add(1, Mensagem1);
-            }
-            
-            if (!string.IsNullOrEmpty(Mensagem2))
-            {
-                dic.Add(2, Mensagem2);
-            }
-            
-            if (!string.IsNullOrEmpty(Mensagem3)) 
-            {
-                dic.Add(3, Mensagem3);
+                if (!string.IsNullOrEmpty(mensagens[i]))
+                {
+                    dic.Add(i+1, mensagens[i]);
+                }
             }
 
             if (dic.Count > 0) 

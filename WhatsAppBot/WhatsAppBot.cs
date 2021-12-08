@@ -17,6 +17,7 @@ namespace WhatsAppBot
 {
     public partial class WhatsAppBot : Form
     {
+        public string UltimoArquivoCarregado { get; set; }
         public WhatsAppBot()
         {
             InitializeComponent();
@@ -38,15 +39,8 @@ namespace WhatsAppBot
                     ofd.Title = "Carregar arquivos de contatos";
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        contatosDataGridView.Rows.Clear();
-                        var linhas = File.ReadAllLines(ofd.FileName).ToList();
-                        linhas.RemoveAt(0);
-                        foreach (var linha in linhas)
-                        {
-                            var contato = new Contato(linha.Split(';').Select(o => (object)o).ToArray());
-                            contatosDataGridView.Rows.Add(contato.ToRow());
-                        }
-                        DefineRowColor();
+                        UltimoArquivoCarregado = ofd.FileName;
+                        CarregarArquivo();
                     }
                 }
             }
@@ -54,6 +48,19 @@ namespace WhatsAppBot
             {
                 ExibirExcecao(ex);
             }
+        }
+
+        private void CarregarArquivo()
+        {
+            contatosDataGridView.Rows.Clear();
+            var linhas = File.ReadAllLines(UltimoArquivoCarregado).ToList();
+            linhas.RemoveAt(0);
+            foreach (var linha in linhas)
+            {
+                var contato = new Contato(linha.Split(';').Select(o => (object)o).ToArray());
+                contatosDataGridView.Rows.Add(contato.ToRow());
+            }
+            DefineRowColor();
         }
 
         private void opçõesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -154,9 +161,9 @@ namespace WhatsAppBot
                                                 c.ContatoEncontrado = true;
                                                 Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
 
-                                                if (!string.IsNullOrEmpty(c.DefinirMensagem()) && !c.MensagemEnviada)
+                                                if (!string.IsNullOrEmpty(c.DefinirMensagem(config.Mensagens)) && !c.MensagemEnviada)
                                                 {
-                                                    EnviadoMensagem(driver, c);
+                                                    EnviadoMensagem(driver, c, config.Mensagens);
                                                     c.MensagemEnviada = true;
                                                     Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r); });
                                                 }
@@ -252,7 +259,7 @@ namespace WhatsAppBot
                 contatoEncontrado = c.ContatoEncontrado.Value ? "1" : "0";
             }
 
-            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{c?.Mensagem1};{c.Mensagem2};{c.Mensagem3};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivosEnviados ? "1" : "0")};{contatoEncontrado}";
+            linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivosEnviados ? "1" : "0")};{contatoEncontrado}";
             File.WriteAllLines("contatos.csv", linhas, Encoding.UTF8);
 
             contatosDataGridView.Rows[indexRow].SetValues(c.ToRow());
@@ -260,10 +267,10 @@ namespace WhatsAppBot
             Application.DoEvents();
         }
 
-        private void EnviadoMensagem(ChromeDriver driver, Contato contato)
+        private void EnviadoMensagem(ChromeDriver driver, Contato contato, List<string> mensagens)
         {
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
-            driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
+            driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
         }
 
@@ -298,19 +305,86 @@ namespace WhatsAppBot
             }
             else if (tipoDeBusca == TipoDeProcura.Telefone)
             {
-                seachText.SendKeys(c.Telefone);
-            }
-            else if (tipoDeBusca == TipoDeProcura.NomeETelefone) 
-            {
-                seachText.SendKeys(c.Telefone);
-                if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura)) 
+                if (c.Telefone.Length == 11)
                 {
-                    seachText.Clear();
-                    seachText.SendKeys(c.Nome);
+                    seachText.SendKeys(c.Telefone);
+                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
+                    {
+                        seachText.Clear();
+                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}{c.Telefone.Substring(4)}");
+                    }
+                    else 
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        return true;
+                    }
                 }
                 else 
                 {
-                    return true;    
+                    seachText.SendKeys(c.Telefone);
+                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
+                    {
+                        seachText.Clear();
+                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}9{c.Telefone.Substring(3)}");
+                    }
+                    else 
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        return true;
+                    }
+                }
+            }
+            else if (tipoDeBusca == TipoDeProcura.NomeETelefone) 
+            {
+
+                if (c.Telefone.Length == 11)
+                {
+                    seachText.SendKeys(c.Telefone);
+                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
+                    {
+                        seachText.Clear();
+                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}{c.Telefone.Substring(4)}");
+
+                        if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura)) 
+                        {
+                            seachText.Clear();
+                            seachText.SendKeys(c.Nome);
+                        }
+                        else 
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        return true;
+                    }
+                }
+                else
+                {
+                    seachText.SendKeys(c.Telefone);
+                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
+                    {
+                        seachText.Clear();
+                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}9{c.Telefone.Substring(3)}");
+                        if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
+                        {
+                            seachText.Clear();
+                            seachText.SendKeys(c.Nome);
+                        }
+                        else
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        return true;
+                    }
                 }
             }
             Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -325,7 +399,8 @@ namespace WhatsAppBot
             {
                 try
                 {
-                    contatos = driver.FindElements(By.TagName("span"));
+                    var paneSide = driver.FindElement(By.Id("pane-side"));
+                    contatos = paneSide?.FindElements(By.TagName("span"));
                 }
                 catch { }
 
@@ -343,7 +418,8 @@ namespace WhatsAppBot
                 return false;
             }
 
-            contatos = driver.FindElements(By.TagName("span"));
+            var pSide = driver.FindElement(By.Id("pane-side"));
+            contatos = pSide.FindElements(By.TagName("span"));
             contatos.Where(e => e.SecureGetAttribute("Title") == c.Nome).FirstOrDefault().Click();
             return true;
         }
@@ -411,9 +487,6 @@ namespace WhatsAppBot
                 Cpf = cells[cpfColumn.Index].Value?.ToString(),
                 Nome = cells[nomeColumn.Index].Value?.ToString(),
                 Telefone = cells[telefoneColumn.Index].Value?.ToString(),
-                Mensagem1 = cells[msg1Column.Index].Value?.ToString(),
-                Mensagem2 = cells[msg2Column.Index].Value?.ToString(),
-                Mensagem3 = cells[msg3Column.Index].Value?.ToString(),
                 ArquivosEnviados = (bool)cells[ArquivoEnviadoColumn.Index]?.Value,
                 MensagemEnviada = (bool)cells[MensagemEnviadaColumn.Index]?.Value,
                 ContatoEncontrado = (bool?)cells[ContatoEncontradoColumn.Index]?.Value ?? null
@@ -481,6 +554,36 @@ namespace WhatsAppBot
                     process.Kill();
                 }
                 catch { }
+            }
+        }
+
+        private void reiniciarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(UltimoArquivoCarregado))
+                {
+                    var contatos = new List<string>();
+                    contatos.Add("Cpf;Nome;Celular;SucessoEnvioMsg;SucessoEnvioArquivos;ContatoEncontrado");
+
+                    if (MessageBox.Show(this, "Resetar coluna de contato encontrado?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        contatos.AddRange(contatosDataGridView.Rows.Cast<DataGridViewRow>().Select(r =>
+                            $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()};{r?.Cells[2]?.Value?.ToString()};0;0;").ToList());
+                    }
+                    else
+                    {
+                        contatos.AddRange(contatosDataGridView.Rows.Cast<DataGridViewRow>().Select(r =>
+                                $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()};{r?.Cells[2]?.Value?.ToString()};0;0;{(r?.Cells[5]?.Value == null ? "" : (bool.Parse(r?.Cells[5]?.Value?.ToString().ToLower()) ? "1" : "0"))}").ToList());
+                    }
+
+                    File.WriteAllLines(UltimoArquivoCarregado, contatos);
+                    CarregarArquivo();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExibirExcecao(ex);
             }
         }
     }

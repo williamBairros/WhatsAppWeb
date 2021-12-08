@@ -1,4 +1,5 @@
-﻿using WhatsAppBot.Enuns;
+﻿using System.Collections.Generic;
+using WhatsAppBot.Enuns;
 
 namespace WhatsAppBot
 {
@@ -9,5 +10,6 @@ namespace WhatsAppBot
         public int SegundosDeProcura { get; set; }
         public TipoDeProcura TipoDeProcura { get; set; }
         public BuscarArquivos BuscarArquivos { get; set; }
+        public List<string> Mensagens { get; set; }
     }
 }

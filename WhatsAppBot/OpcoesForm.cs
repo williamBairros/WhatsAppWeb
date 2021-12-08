@@ -102,6 +102,7 @@ namespace WhatsAppBot
             {
                 config.BuscarArquivos.Campos.Add(i, campos[i]);
             }
+            config.Mensagens = mensagensListBox.Items.Cast<string>().ToList();
 
             var jo = JsonConvert.SerializeObject(config, Formatting.Indented);
             File.WriteAllText("config.json", jo);
@@ -119,6 +120,7 @@ namespace WhatsAppBot
                 delimitadorTextBox.Text = config?.BuscarArquivos?.Delimitador;
                 diretorioArquivosTextBox.Text = config?.BuscarArquivos?.DiretorioArquivos;
                 config?.BuscarArquivos?.Campos?.Values?.ToList().ForEach(c => camposListBox.Items.Add(c));
+                mensagensListBox.Items.AddRange(config?.Mensagens?.Cast<object>().ToArray() ?? new object[] { });
             }
         }
 
@@ -131,6 +133,48 @@ namespace WhatsAppBot
             catch (Exception ex)
             {
                 ExibirExcecao(ex);
+            }
+        }
+
+        private void mensagensListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mensagensListBox.SelectedItem is string msg)
+            {
+                addMensagenButton.Text = "Atualizar mensagem";
+                deleteMensagenButton.Enabled = true;
+                mensagemRichTextBox.Text = msg;
+            }
+            else 
+            {
+                deleteMensagenButton.Enabled = false;
+                addMensagenButton.Text = "Adicionar mensagem";
+                mensagemRichTextBox.Clear();
+            }
+        }
+
+        private void novaMenagemButton_Click(object sender, EventArgs e)
+        {
+            mensagensListBox.ClearSelected();
+            mensagemRichTextBox.Clear();
+        }
+
+        private void deleteMensagenButton_Click(object sender, EventArgs e)
+        {
+            if (mensagensListBox.SelectedItem != null)
+            {
+                mensagensListBox.Items.RemoveAt(mensagensListBox.SelectedIndex);
+            }
+        }
+
+        private void addMensagenButton_Click(object sender, EventArgs e)
+        {
+            if (mensagensListBox.SelectedItem != null)
+            {
+                mensagensListBox.Items[mensagensListBox.SelectedIndex] = mensagemRichTextBox.Text;
+            }
+            else 
+            {
+                mensagensListBox.Items.Add(mensagemRichTextBox.Text);
             }
         }
     }
