@@ -141,7 +141,7 @@ namespace WhatsAppBot
                             {
                                 CANCELAR_EXECUCAO = false;
                                 MessageBox.Show("Execução cancelada!");
-                                return;
+                                break;
                             }
 
                             var c = CarregarContato(ROWS[r].Cells);
@@ -241,6 +241,7 @@ namespace WhatsAppBot
                     Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = true; });
                     Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = false; });
                     MessageBox.Show("Envios concluídos");
+                    KillCrhomeDriver();
                 }
             });
         }
