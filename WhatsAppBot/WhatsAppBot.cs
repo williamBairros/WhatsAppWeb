@@ -165,7 +165,7 @@ namespace WhatsAppBot
                                                 {
                                                     EnviadoMensagem(driver, c, config.Mensagens);
                                                     c.MensagemEnviada = true;
-                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r); });
+                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
                                                 }
 
                                                 var arquivos = c.BuscarArquivos(config.BuscarArquivos);
@@ -181,14 +181,14 @@ namespace WhatsAppBot
                                                 if (arquivos.Count > 0)
                                                 {
                                                     c.ArquivosEnviados = true;
-                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r); });
+                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
                                                 }
                                                 break;
                                             }
                                             else
                                             {
                                                 c.ContatoEncontrado = false;
-                                                Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r); });
+                                                Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
                                                 break;
                                             }
                                         }
@@ -249,9 +249,9 @@ namespace WhatsAppBot
         {
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='clip']"));
         }
-        private void AtualizarEnvioContato(Contato c, int indexRow)
+        private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
-            var linhas = File.ReadAllLines("contatos.csv", Encoding.UTF8).ToList();
+            var linhas = File.ReadAllLines(nomeArquivo, Encoding.UTF8).ToList();
             var index = linhas.FindIndex(l => l.Split(';')[0] == c.Cpf);
             var contatoEncontrado = "";
 
@@ -261,7 +261,7 @@ namespace WhatsAppBot
             }
 
             linhas[index] = $"{c.Cpf};{c.Nome};{c.Telefone};{(c.MensagemEnviada ? "1" : "0")};{(c.ArquivosEnviados ? "1" : "0")};{contatoEncontrado}";
-            File.WriteAllLines("contatos.csv", linhas, Encoding.UTF8);
+            File.WriteAllLines(nomeArquivo, linhas, Encoding.UTF8);
 
             contatosDataGridView.Rows[indexRow].SetValues(c.ToRow());
             contatosDataGridView.Refresh();
