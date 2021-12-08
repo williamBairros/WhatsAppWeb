@@ -312,7 +312,7 @@ namespace WhatsAppBot
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         seachText.Clear();
-                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}{c.Telefone.Substring(4)}");
+                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
                     }
                     else 
                     {
@@ -326,7 +326,7 @@ namespace WhatsAppBot
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         seachText.Clear();
-                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}9{c.Telefone.Substring(3)}");
+                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
                     }
                     else 
                     {
@@ -344,7 +344,7 @@ namespace WhatsAppBot
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         seachText.Clear();
-                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}{c.Telefone.Substring(4)}");
+                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
 
                         if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura)) 
                         {
@@ -369,7 +369,7 @@ namespace WhatsAppBot
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         seachText.Clear();
-                        seachText.SendKeys($"{c.Telefone.Substring(1, 2)}9{c.Telefone.Substring(3)}");
+                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
                         if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                         {
                             seachText.Clear();
