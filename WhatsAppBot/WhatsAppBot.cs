@@ -475,7 +475,17 @@ namespace WhatsAppBot
                 {
                     seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[2]"), TimeSpan.FromSeconds(1));                                                                                 
                 }
-                catch { }
+                catch 
+                {
+                    try
+                    {
+                        if (seachText == null)
+                        {
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[2]"));
+                        }
+                    }
+                    catch { }
+                }
 
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
