@@ -313,6 +313,7 @@ namespace WhatsAppBot
         {
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
             driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
         }
 
