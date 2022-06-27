@@ -639,5 +639,10 @@ namespace WhatsAppBot
                 ExibirExcecao(ex);
             }
         }
+
+        private void WhatsAppBot_Load(object sender, EventArgs e)
+        {
+            KillCrhomeDriver();
+        }
     }
 }
