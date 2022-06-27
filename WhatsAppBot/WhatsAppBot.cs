@@ -119,131 +119,172 @@ namespace WhatsAppBot
         public static bool CANCELAR_EXECUCAO { get; set; }
         public static DataGridViewRowCollection ROWS { get; set; }
         private void executarToolStripMenuItem_Click(object sender, EventArgs e)
-        { 
-            Task.Factory.StartNew(() =>
+        {
+            var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+            var seguir = false;
+            for (int r = 0; r < contatosDataGridView.Rows.Count; r++)
             {
-                try
+                var mensagemEnviada = (bool)contatosDataGridView.Rows[r].Cells[3]?.Value;
+                var arquivoEnviado = (bool)contatosDataGridView.Rows[r].Cells[4]?.Value;
+                var contatoEncontrado = contatosDataGridView.Rows[r].Cells[5]?.Value?.ToString();
+
+                var contato = false;
+                if (string.IsNullOrEmpty(contatoEncontrado))
                 {
-                    Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = false; });
-                    Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = true; });
+                    contato = true;
+                }
+                else
+                {
+                    contato = bool.Parse(contatoEncontrado.ToLower());
+                }
 
-                    var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-                    using (var driver = new ChromeDriver())
+                if (string.IsNullOrEmpty(config?.BuscarArquivos?.DiretorioArquivos)) 
+                {
+                    arquivoEnviado = true;
+                }
+
+                if ((!mensagemEnviada || !arquivoEnviado) && contato) 
+                {
+                    seguir = true;
+                    break;
+                }
+            }
+
+            if (seguir)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    try
                     {
-                        driver.Navigate().GoToUrl("https://web.whatsapp.com/");
-                        var seachText = WaitLogin(driver);
+                        Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = false; });
+                        Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = true; });
 
-                        Invoke((MethodInvoker)delegate () { ROWS = contatosDataGridView.Rows; });
-
-                        for (int r = 0; r < ROWS.Count; r++)
+                        config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+                        using (var driver = new ChromeDriver())
                         {
-                            if (CANCELAR_EXECUCAO)
-                            {
-                                CANCELAR_EXECUCAO = false;
-                                MessageBox.Show("Execução cancelada!");
-                                break;
-                            }
+                            driver.Navigate().GoToUrl("https://web.whatsapp.com/");
+                            var seachText = WaitLogin(driver);
 
-                            var c = CarregarContato(ROWS[r].Cells);
-                            if ((!c.ArquivosEnviados || !c.MensagemEnviada) && (c.ContatoEncontrado ?? true))
-                            {
-                                Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Yellow; });
+                            Invoke((MethodInvoker)delegate () { ROWS = contatosDataGridView.Rows; });
 
-                                try
+                            for (int r = 0; r < ROWS.Count; r++)
+                            {
+                                if (CANCELAR_EXECUCAO)
                                 {
-                                    var tentativas = 3;
-                                    while (tentativas > 0)
+                                    CANCELAR_EXECUCAO = false;
+                                    MessageBox.Show("Execução cancelada!");
+                                    break;
+                                }
+
+                                var c = CarregarContato(ROWS[r].Cells);
+                                if ((!c.ArquivosEnviados || !c.MensagemEnviada) && (c.ContatoEncontrado ?? true))
+                                {
+                                    Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Yellow; });
+
+                                    try
                                     {
-                                        try
+                                        var tentativas = 3;
+                                        while (tentativas > 0)
                                         {
-                                            if (SetarContato(c, driver, seachText, TimeSpan.FromSeconds(config.SegundosDeProcura), config.TipoDeProcura))
-                                            {
-                                                c.ContatoEncontrado = true;
-                                                Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
-
-                                                if (!string.IsNullOrEmpty(c.DefinirMensagem(config.Mensagens)) && !c.MensagemEnviada)
-                                                {
-                                                    EnviadoMensagem(driver, c, config.Mensagens);
-                                                    c.MensagemEnviada = true;
-                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
-                                                }
-
-                                                var arquivos = c.BuscarArquivos(config.BuscarArquivos);
-                                                foreach (var arquivo in arquivos)
-                                                {
-                                                    if (arquivo != null && File.Exists(arquivo) && !c.ArquivosEnviados)
-                                                    {
-                                                        EnviarArquivo(driver, c, arquivo);
-                                                    }
-                                                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                                                }
-
-                                                if (arquivos.Count > 0)
-                                                {
-                                                    c.ArquivosEnviados = true;
-                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
-                                                }
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                c.ContatoEncontrado = false;
-                                                Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
-                                                break;
-                                            }
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            tentativas--;
                                             try
                                             {
-                                                ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
+                                                if ((c.ContatoEncontrado ?? false) || SetarContato(c, driver, seachText, TimeSpan.FromSeconds(config.SegundosDeProcura), config.TipoDeProcura))
+                                                {
+                                                    c.ContatoEncontrado = true;
+                                                    Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
+
+                                                    if (!c.MensagemEnviada && !string.IsNullOrEmpty(c.DefinirMensagem(config.Mensagens)))
+                                                    {
+                                                        EnviadoMensagem(driver, c, config.Mensagens);
+                                                        c.MensagemEnviada = true;
+                                                        Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
+                                                    }
+
+                                                    var arquivos = new List<string>();
+                                                    if (!string.IsNullOrEmpty(config?.BuscarArquivos?.DiretorioArquivos))
+                                                    {
+                                                        arquivos = c.BuscarArquivos(config.BuscarArquivos);
+                                                        foreach (var arquivo in arquivos)
+                                                        {
+                                                            if (arquivo != null && File.Exists(arquivo) && !c.ArquivosEnviados)
+                                                            {
+                                                                EnviarArquivo(driver, c, arquivo);
+                                                            }
+                                                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                                                        }
+                                                    }
+
+                                                    if (arquivos.Count > 0)
+                                                    {
+                                                        c.ArquivosEnviados = true;
+                                                        Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
+                                                    }
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    c.ContatoEncontrado = false;
+                                                    Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
+                                                    break;
+                                                }
                                             }
-                                            catch { }
+                                            catch (Exception ex)
+                                            {
+                                                tentativas--;
+                                                try
+                                                {
+                                                    ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
+                                                }
+                                                catch { }
+                                            }
+                                        }
+                                        if (c.ContatoEncontrado.HasValue && !c.ContatoEncontrado.Value)
+                                        {
+                                            Invoke((MethodInvoker)delegate ()
+                                            {
+                                                contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Orange;
+                                                contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                            });
+                                        }
+                                        else
+                                        {
+                                            Invoke((MethodInvoker)delegate ()
+                                            {
+                                                contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green;
+                                                contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                            });
                                         }
                                     }
-                                    if (c.ContatoEncontrado.HasValue && !c.ContatoEncontrado.Value)
+                                    catch (Exception ex)
                                     {
-                                        Invoke((MethodInvoker)delegate () 
-                                        { 
-                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Orange;
+                                        ExceptionToFile(ex);
+                                        Invoke((MethodInvoker)delegate ()
+                                        {
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Red;
                                             contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
                                         });
                                     }
-                                    else
-                                    {
-                                        Invoke((MethodInvoker)delegate () 
-                                        { 
-                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green;
-                                            contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
-                                        });
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    ExceptionToFile(ex);
-                                    Invoke((MethodInvoker)delegate ()
-                                    {
-                                        contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Red;
-                                        contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
-                                    });                                  
                                 }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExibirExcecao(ex);
-                }
-                finally 
-                {
-                    Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = true; });
-                    Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = false; });
-                    MessageBox.Show("Envios concluídos");
-                    KillCrhomeDriver();
-                }
-            });
+                    catch (Exception ex)
+                    {
+                        ExibirExcecao(ex);
+                    }
+                    finally
+                    {
+                        Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = true; });
+                        Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = false; });
+                        MessageBox.Show("Envios concluídos");
+                        KillCrhomeDriver();
+                    }
+                });
+            }
+            else 
+            {
+                MessageBox.Show("Sem casos para enviar");
+            }
         }
         private static void AnexarButtonClick(IWebDriver driver)
         {

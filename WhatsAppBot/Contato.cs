@@ -65,13 +65,19 @@ namespace WhatsAppBot
             };
         }
 
-        public static List<string> Arquivos = null;
+        public static List<string> Arquivos = new List<string>();
         public List<string> BuscarArquivos(BuscarArquivos busca) 
         {
-            if (Arquivos == null || (Arquivos?.Count ?? 0 ) == 0) 
+            try
             {
-                Arquivos = Directory.GetFiles(busca.DiretorioArquivos).ToList();
+                Directory.CreateDirectory(busca.DiretorioArquivos);
+                if ((Arquivos?.Count ?? 0) == 0)
+                {
+                    Arquivos = Directory.GetFiles(busca.DiretorioArquivos).ToList();
+                }
             }
+            catch { return new List<string>(); }
+
 
             return Arquivos.FindAll(f =>
             {
