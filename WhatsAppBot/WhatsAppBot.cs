@@ -312,9 +312,17 @@ namespace WhatsAppBot
         private void EnviadoMensagem(ChromeDriver driver, Contato contato, List<string> mensagens)
         {
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
-            driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
+            //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
+            //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
+            var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
+            text.SendKeys(contato.DefinirMensagem(mensagens));
+            text.SendKeys(OpenQA.Selenium.Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
+            
+            //var sendButton = driver.FindElement(By.CssSelector("span[data-icon='send']"));
+            //var sendButton = driver.FindElement(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
+            //thread.Sleep(TimeSpan.FromSeconds(1));
+            //sendButton.Click();
         }
 
         private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo)
@@ -334,8 +342,11 @@ namespace WhatsAppBot
 
             var input = driver.SecureFind(By.CssSelector("input[type='file']"));
             input.SendKeys(arquivo);
-            //driver.SecureFindAndClick(By.CssSelector("span[data-icon='send']"));
-            driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]"));
+            Thread.Sleep(1000);
+            
+            //driver.SecureFindAndSendKeys("{Enter}");
+            driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
+            //driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]"));
         }
 
 
@@ -438,7 +449,7 @@ namespace WhatsAppBot
         {
             IEnumerable<IWebElement> contatos = null;
             var sair = false;
-            while (contatos?.Where(e => e.SecureGetAttribute("Title") == c.Nome)?.FirstOrDefault() == null && !sair)
+            while (contatos?.Where(e => e.SecureGetAttribute("title") == c.Nome)?.FirstOrDefault() == null && !sair)
             {
                 try
                 {
@@ -463,7 +474,7 @@ namespace WhatsAppBot
 
             var pSide = driver.FindElement(By.Id("pane-side"));
             contatos = pSide.FindElements(By.TagName("span"));
-            contatos.Where(e => e.SecureGetAttribute("Title") == c.Nome).FirstOrDefault().Click();
+            contatos.Where(e => e.SecureGetAttribute("title") == c.Nome).FirstOrDefault().Click();
             return true;
         }
 
