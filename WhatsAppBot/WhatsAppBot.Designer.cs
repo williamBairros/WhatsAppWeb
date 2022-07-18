@@ -32,12 +32,6 @@ namespace WhatsAppBot
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WhatsAppBot));
             this.contatosDataGridView = new System.Windows.Forms.DataGridView();
-            this.cpfColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nomeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.telefoneColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MensagemEnviadaColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ArquivoEnviadoColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ContatoEncontradoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contatosGridViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.executarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pararExecuçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +41,8 @@ namespace WhatsAppBot
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carregarContatosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.telefoneColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessagemColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.contatosDataGridView)).BeginInit();
             this.contatosGridViewContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -59,12 +55,8 @@ namespace WhatsAppBot
             this.contatosDataGridView.AllowUserToOrderColumns = true;
             this.contatosDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.contatosDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.cpfColumn,
-            this.nomeColumn,
             this.telefoneColumn,
-            this.MensagemEnviadaColumn,
-            this.ArquivoEnviadoColumn,
-            this.ContatoEncontradoColumn});
+            this.MessagemColumn});
             this.contatosDataGridView.ContextMenuStrip = this.contatosGridViewContextMenuStrip;
             this.contatosDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contatosDataGridView.Location = new System.Drawing.Point(0, 24);
@@ -77,56 +69,6 @@ namespace WhatsAppBot
             this.contatosDataGridView.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_CellLeave);
             this.contatosDataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_RowEnter);
             this.contatosDataGridView.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_RowLeave);
-            // 
-            // cpfColumn
-            // 
-            this.cpfColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.cpfColumn.HeaderText = "Cpf";
-            this.cpfColumn.Name = "cpfColumn";
-            this.cpfColumn.ReadOnly = true;
-            this.cpfColumn.Width = 56;
-            // 
-            // nomeColumn
-            // 
-            this.nomeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.nomeColumn.HeaderText = "Nome";
-            this.nomeColumn.Name = "nomeColumn";
-            this.nomeColumn.ReadOnly = true;
-            this.nomeColumn.Width = 74;
-            // 
-            // telefoneColumn
-            // 
-            this.telefoneColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.telefoneColumn.HeaderText = "Telefone";
-            this.telefoneColumn.Name = "telefoneColumn";
-            this.telefoneColumn.ReadOnly = true;
-            this.telefoneColumn.Width = 90;
-            // 
-            // MensagemEnviadaColumn
-            // 
-            this.MensagemEnviadaColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.MensagemEnviadaColumn.HeaderText = "MensagemEnviada";
-            this.MensagemEnviadaColumn.Name = "MensagemEnviadaColumn";
-            this.MensagemEnviadaColumn.ReadOnly = true;
-            this.MensagemEnviadaColumn.Width = 140;
-            // 
-            // ArquivoEnviadoColumn
-            // 
-            this.ArquivoEnviadoColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ArquivoEnviadoColumn.HeaderText = "ArquivoEnviado";
-            this.ArquivoEnviadoColumn.Name = "ArquivoEnviadoColumn";
-            this.ArquivoEnviadoColumn.ReadOnly = true;
-            this.ArquivoEnviadoColumn.Width = 116;
-            // 
-            // ContatoEncontradoColumn
-            // 
-            this.ContatoEncontradoColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ContatoEncontradoColumn.HeaderText = "ContatoEncontrado";
-            this.ContatoEncontradoColumn.Name = "ContatoEncontradoColumn";
-            this.ContatoEncontradoColumn.ReadOnly = true;
-            this.ContatoEncontradoColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ContatoEncontradoColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ContatoEncontradoColumn.Width = 144;
             // 
             // contatosGridViewContextMenuStrip
             // 
@@ -200,6 +142,21 @@ namespace WhatsAppBot
             this.opçõesToolStripMenuItem.Text = "⚙️ Opções";
             this.opçõesToolStripMenuItem.Click += new System.EventHandler(this.opçõesToolStripMenuItem_Click);
             // 
+            // telefoneColumn
+            // 
+            this.telefoneColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.telefoneColumn.HeaderText = "Telefone";
+            this.telefoneColumn.Name = "telefoneColumn";
+            this.telefoneColumn.ReadOnly = true;
+            this.telefoneColumn.Width = 90;
+            // 
+            // MessagemColumn
+            // 
+            this.MessagemColumn.HeaderText = "Mensagem";
+            this.MessagemColumn.Name = "MessagemColumn";
+            this.MessagemColumn.ReadOnly = true;
+            this.MessagemColumn.Width = 2000;
+            // 
             // WhatsAppBot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -235,13 +192,9 @@ namespace WhatsAppBot
         private System.Windows.Forms.ToolStripMenuItem executarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerarArquivoVcfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pararExecuçãoToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cpfColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nomeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn telefoneColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn MensagemEnviadaColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ArquivoEnviadoColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContatoEncontradoColumn;
         private System.Windows.Forms.ToolStripMenuItem reiniciarArquivoToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn telefoneColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MessagemColumn;
     }
 }
 
