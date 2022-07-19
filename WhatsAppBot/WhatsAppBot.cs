@@ -285,12 +285,12 @@ namespace WhatsAppBot
             else if (c.Telefone.Length == 10)
             {
                 ddd = c.Telefone.Substring(0, 2);
-                telefone = c.ToString().Substring(2);
+                telefone = c.Telefone.ToString().Substring(2);
             }
             else if (c.Telefone.Length == 11)
             {
                 ddd = c.Telefone.Substring(0, 2);
-                telefone = c.ToString().Substring(3);
+                telefone = c.Telefone.ToString().Substring(3);
             }
 
             seachText.SendKeys($"{ddd}{telefone}");
