@@ -150,44 +150,38 @@ namespace WhatsAppBot
                             Invoke((MethodInvoker)delegate () { contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Yellow; });
 
                             try
-                            {
-                                var tentativas = 3;
-                                while (tentativas > 0)
+                            {                  
+                                try
+                                {
+                                    if (SetarContato(c, driver, seachText, TimeSpan.FromSeconds(config.SegundosDeProcura)))
+                                    {
+                                        Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
+                                        EnviadoMensagem(driver, c);
+       
+                                        var arquivos = new List<string>();
+                                        if (!string.IsNullOrEmpty(config?.BuscarArquivos?.DiretorioArquivos))
+                                        {
+                                            arquivos = c.BuscarArquivos(config.BuscarArquivos);
+                                            foreach (var arquivo in arquivos)
+                                            {
+                                                if (arquivo != null && File.Exists(arquivo))
+                                                {
+                                                    EnviarArquivo(driver, c, arquivo);
+                                                }
+                                                Thread.Sleep(TimeSpan.FromSeconds(1));
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
                                 {
                                     try
                                     {
-                                        if (SetarContato(c, driver, seachText, TimeSpan.FromSeconds(config.SegundosDeProcura)))
-                                        {
-                                            Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
-                                            EnviadoMensagem(driver, c);
-       
-                                            var arquivos = new List<string>();
-                                            if (!string.IsNullOrEmpty(config?.BuscarArquivos?.DiretorioArquivos))
-                                            {
-                                                arquivos = c.BuscarArquivos(config.BuscarArquivos);
-                                                foreach (var arquivo in arquivos)
-                                                {
-                                                    if (arquivo != null && File.Exists(arquivo))
-                                                    {
-                                                        EnviarArquivo(driver, c, arquivo);
-                                                    }
-                                                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                                                }
-                                            }
-
-                                            break;
-                                        }
+                                        ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        tentativas--;
-                                        try
-                                        {
-                                            ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
-                                        }
-                                        catch { }
-                                    }
+                                    catch { }
                                 }
+                                
 
                                 Invoke((MethodInvoker)delegate ()
                                 {
@@ -295,10 +289,14 @@ namespace WhatsAppBot
 
             seachText.SendKeys($"{ddd}{telefone}");
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            //var pSide = driver.SecureFind(By.Id("pane-side"));
-            //var contatos = pSide.FindElements(By.TagName("span"));
-            seachText.SendKeys(OpenQA.Selenium.Keys.Enter);
-            return true;
+
+            var paneSide = driver.FindElement(By.Id("pane-side"));
+            var contactFind = !paneSide.Text?.Contains("Nenhuma conversa") ?? true;
+
+            if(contactFind)
+                seachText.SendKeys(OpenQA.Selenium.Keys.Enter);
+
+            return contactFind;
         }
         
         public static string WriteException(Exception ex)
