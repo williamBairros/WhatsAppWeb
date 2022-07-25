@@ -157,7 +157,7 @@ namespace WhatsAppBot
                                     {
                                         Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(config.IntervaloMin, config.IntervaloMax + 1)));
                                         EnviadoMensagem(driver, c);
-       
+
                                         var arquivos = new List<string>();
                                         if (!string.IsNullOrEmpty(config?.BuscarArquivos?.DiretorioArquivos))
                                         {
@@ -171,6 +171,20 @@ namespace WhatsAppBot
                                                 Thread.Sleep(TimeSpan.FromSeconds(1));
                                             }
                                         }
+
+                                        Invoke((MethodInvoker)delegate ()
+                                        {
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green;
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                        });
+                                    }
+                                    else 
+                                    {
+                                        Invoke((MethodInvoker)delegate ()
+                                        {
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Orange;
+                                            contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
+                                        });
                                     }
                                 }
                                 catch (Exception ex)
@@ -180,15 +194,7 @@ namespace WhatsAppBot
                                         ExceptionToFile(new ContatoSendException($"Erro ao enviar contato: {JsonConvert.SerializeObject(c, Formatting.Indented)}", ex));
                                     }
                                     catch { }
-                                }
-                                
-
-                                Invoke((MethodInvoker)delegate ()
-                                {
-                                    contatosDataGridView.Rows[r].DefaultCellStyle.BackColor = Color.Green;
-                                    contatosDataGridView.Rows[r].DefaultCellStyle.ForeColor = Color.White;
-                                });
-                                    
+                                }                                                               
                             }
                             catch (Exception ex)
                             {
