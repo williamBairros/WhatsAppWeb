@@ -30,7 +30,7 @@ namespace WhatsAppBot
             MessageBox.Show(null, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void carregarContatosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CarregarContatosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace WhatsAppBot
             }
         }
 
-        private void opçõesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpcoesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace WhatsAppBot
             }
         }
 
-        private void gerarArquivoVcfToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GerarArquivoVcfToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace WhatsAppBot
                 {
                     linhas.Add(AddVcf(contato.Nome, contato.Telefone));
                 }
-                File.WriteAllLines($"{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}.vcf", linhas);
+                File.WriteAllLines($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}.vcf", linhas);
                 MessageBox.Show("Arquivo CVF gerado!");
             }
         }
@@ -117,7 +117,7 @@ namespace WhatsAppBot
 
         public static bool CANCELAR_EXECUCAO { get; set; }
         public static DataGridViewRowCollection ROWS { get; set; }
-        private void executarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExecutarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
             
@@ -166,7 +166,7 @@ namespace WhatsAppBot
                                             {
                                                 if (arquivo != null && File.Exists(arquivo))
                                                 {
-                                                    EnviarArquivo(driver, c, arquivo);
+                                                    EnviarArquivo(driver, arquivo);
                                                 }
                                                 Thread.Sleep(TimeSpan.FromSeconds(1));
                                             }
@@ -229,21 +229,13 @@ namespace WhatsAppBot
 
         private void EnviadoMensagem(ChromeDriver driver, Contato contato)
         {
-            //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
-            //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
-            //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
             var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
             text.SendKeys(contato.Mensagem);
             text.SendKeys(OpenQA.Selenium.Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            
-            //var sendButton = driver.FindElement(By.CssSelector("span[data-icon='send']"));
-            //var sendButton = driver.FindElement(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
-            //thread.Sleep(TimeSpan.FromSeconds(1));
-            //sendButton.Click();
         }
 
-        private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo)
+        private static void EnviarArquivo(ChromeDriver driver, string arquivo)
         {
             AnexarButtonClick(driver);
             IEnumerable<IWebElement> elements = null;
@@ -294,7 +286,7 @@ namespace WhatsAppBot
             }
 
             seachText.SendKeys($"{ddd}{telefone}");
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(segundosDeProcura);
 
             var paneSide = driver.FindElement(By.Id("pane-side"));
             var contactFind = !paneSide.Text?.Contains("Nenhuma conversa") ?? true;
@@ -324,7 +316,7 @@ namespace WhatsAppBot
             {
                 var file = WriteException(ex);
                 Directory.CreateDirectory("Exceptions");
-                File.WriteAllText($"Exceptions\\{DateTime.Now.ToString("ddMMyyyyHHmmss")}.txt", file);
+                File.WriteAllText($"Exceptions\\{DateTime.Now:ddMMyyyyHHmmss}.txt", file);
             }
             catch { }
         }
@@ -363,7 +355,7 @@ namespace WhatsAppBot
             };
         }
 
-        private void pararExecuçãoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PararExecuçãoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -376,29 +368,29 @@ namespace WhatsAppBot
 
         }
 
-        private void contatosDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void ContatosDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             contatosDataGridView.ClearSelection();
             contatosDataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = contatosDataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor;
             contatosDataGridView.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = contatosDataGridView.Rows[e.RowIndex].DefaultCellStyle.ForeColor;
         }
 
-        private void contatosDataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
+        private void ContatosDataGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             contatosDataGridView.ClearSelection();
         }
 
-        private void contatosDataGridView_CellLeave(object sender, DataGridViewCellEventArgs e)
+        private void ContatosDataGridView_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
             contatosDataGridView.ClearSelection();
         }
 
-        private void contatosDataGridView_RowLeave(object sender, DataGridViewCellEventArgs e)
+        private void ContatosDataGridView_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
             contatosDataGridView.ClearSelection();
         }
 
-        private void contatosDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void ContatosDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             contatosDataGridView.ClearSelection();
         }
@@ -427,14 +419,16 @@ namespace WhatsAppBot
             }
         }
 
-        private void reiniciarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ReiniciarArquivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
                 if (!string.IsNullOrEmpty(UltimoArquivoCarregado))
                 {
-                    var contatos = new List<string>();
-                    contatos.Add("Cpf;Nome;Celular;SucessoEnvioMsg;SucessoEnvioArquivos;ContatoEncontrado");
+                    var contatos = new List<string>
+                    {
+                        "Cpf;Nome;Celular;SucessoEnvioMsg;SucessoEnvioArquivos;ContatoEncontrado"
+                    };
 
                     if (MessageBox.Show(this, "Resetar coluna de contato encontrado?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {

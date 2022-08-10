@@ -64,11 +64,11 @@ namespace WhatsAppBot
             this.contatosDataGridView.ReadOnly = true;
             this.contatosDataGridView.Size = new System.Drawing.Size(585, 368);
             this.contatosDataGridView.TabIndex = 0;
-            this.contatosDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_CellClick);
-            this.contatosDataGridView.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_CellEnter);
-            this.contatosDataGridView.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_CellLeave);
-            this.contatosDataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_RowEnter);
-            this.contatosDataGridView.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.contatosDataGridView_RowLeave);
+            this.contatosDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ContatosDataGridView_CellClick);
+            this.contatosDataGridView.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ContatosDataGridView_CellEnter);
+            this.contatosDataGridView.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.ContatosDataGridView_CellLeave);
+            this.contatosDataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ContatosDataGridView_RowEnter);
+            this.contatosDataGridView.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.ContatosDataGridView_RowLeave);
             // 
             // contatosGridViewContextMenuStrip
             // 
@@ -85,7 +85,7 @@ namespace WhatsAppBot
             this.executarToolStripMenuItem.Name = "executarToolStripMenuItem";
             this.executarToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.executarToolStripMenuItem.Text = "Iniciar execução";
-            this.executarToolStripMenuItem.Click += new System.EventHandler(this.executarToolStripMenuItem_Click);
+            this.executarToolStripMenuItem.Click += new System.EventHandler(this.ExecutarToolStripMenuItem_Click);
             // 
             // pararExecuçãoToolStripMenuItem
             // 
@@ -93,21 +93,21 @@ namespace WhatsAppBot
             this.pararExecuçãoToolStripMenuItem.Name = "pararExecuçãoToolStripMenuItem";
             this.pararExecuçãoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.pararExecuçãoToolStripMenuItem.Text = "Parar execução";
-            this.pararExecuçãoToolStripMenuItem.Click += new System.EventHandler(this.pararExecuçãoToolStripMenuItem_Click);
+            this.pararExecuçãoToolStripMenuItem.Click += new System.EventHandler(this.PararExecuçãoToolStripMenuItem_Click);
             // 
             // gerarArquivoVcfToolStripMenuItem
             // 
             this.gerarArquivoVcfToolStripMenuItem.Name = "gerarArquivoVcfToolStripMenuItem";
             this.gerarArquivoVcfToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.gerarArquivoVcfToolStripMenuItem.Text = "Gerar Arquivo Vcf";
-            this.gerarArquivoVcfToolStripMenuItem.Click += new System.EventHandler(this.gerarArquivoVcfToolStripMenuItem_Click);
+            this.gerarArquivoVcfToolStripMenuItem.Click += new System.EventHandler(this.GerarArquivoVcfToolStripMenuItem_Click);
             // 
             // reiniciarArquivoToolStripMenuItem
             // 
             this.reiniciarArquivoToolStripMenuItem.Name = "reiniciarArquivoToolStripMenuItem";
             this.reiniciarArquivoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.reiniciarArquivoToolStripMenuItem.Text = "Reiniciar arquivo";
-            this.reiniciarArquivoToolStripMenuItem.Click += new System.EventHandler(this.reiniciarArquivoToolStripMenuItem_Click);
+            this.reiniciarArquivoToolStripMenuItem.Click += new System.EventHandler(this.ReiniciarArquivoToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -133,14 +133,14 @@ namespace WhatsAppBot
             this.carregarContatosToolStripMenuItem.Name = "carregarContatosToolStripMenuItem";
             this.carregarContatosToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.carregarContatosToolStripMenuItem.Text = "📝 Carregar contatos";
-            this.carregarContatosToolStripMenuItem.Click += new System.EventHandler(this.carregarContatosToolStripMenuItem_Click);
+            this.carregarContatosToolStripMenuItem.Click += new System.EventHandler(this.CarregarContatosToolStripMenuItem_Click);
             // 
             // opçõesToolStripMenuItem
             // 
             this.opçõesToolStripMenuItem.Name = "opçõesToolStripMenuItem";
             this.opçõesToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.opçõesToolStripMenuItem.Text = "⚙️ Opções";
-            this.opçõesToolStripMenuItem.Click += new System.EventHandler(this.opçõesToolStripMenuItem_Click);
+            this.opçõesToolStripMenuItem.Click += new System.EventHandler(this.OpcoesToolStripMenuItem_Click);
             // 
             // telefoneColumn
             // 
