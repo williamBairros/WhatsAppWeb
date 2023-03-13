@@ -24,6 +24,12 @@ namespace WhatsAppBot
                 return null;
             }
         }
+
+        public static void ClearTextByKey(this IWebElement element)
+        {
+            try { element.Click(); } catch { }
+            while (!string.IsNullOrEmpty(element.Text)) element.SendKeys(Keys.Backspace);
+        }
         public static List<string> GetElementAttributes(this IWebDriver driver, IWebElement element)
         {
             IJavaScriptExecutor ex = (IJavaScriptExecutor)driver;

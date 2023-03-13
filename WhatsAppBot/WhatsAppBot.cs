@@ -340,9 +340,9 @@ namespace WhatsAppBot
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
-            var input = driver.SecureFind(By.CssSelector("input[type='file']"));
+            var input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button/input"));
             input.SendKeys(arquivo);
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             
             //driver.SecureFindAndSendKeys("{Enter}");
             driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
@@ -352,7 +352,7 @@ namespace WhatsAppBot
 
         private static bool SetarContato(Contato c, ChromeDriver driver, IWebElement seachText, TimeSpan segundosDeProcura, TipoDeProcura tipoDeBusca)
         {
-            seachText.Clear();
+            seachText.ClearTextByKey();
             if (tipoDeBusca == TipoDeProcura.Nome)
             {
                 seachText.SendKeys(c.Nome);
@@ -364,7 +364,7 @@ namespace WhatsAppBot
                     seachText.SendKeys(c.Telefone);
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
-                        seachText.Clear();
+                        seachText.ClearTextByKey();
                         seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
                     }
                     else 
@@ -378,7 +378,7 @@ namespace WhatsAppBot
                     seachText.SendKeys(c.Telefone);
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
-                        seachText.Clear();
+                        seachText.ClearTextByKey();
                         seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
                     }
                     else 
@@ -396,12 +396,12 @@ namespace WhatsAppBot
                     seachText.SendKeys(c.Telefone);
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
-                        seachText.Clear();
+                        seachText.ClearTextByKey();
                         seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
 
                         if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura)) 
                         {
-                            seachText.Clear();
+                            seachText.ClearTextByKey();
                             seachText.SendKeys(c.Nome);
                         }
                         else 
@@ -421,11 +421,11 @@ namespace WhatsAppBot
                     seachText.SendKeys(c.Telefone);
                     if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
-                        seachText.Clear();
+                        seachText.ClearTextByKey();
                         seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
                         if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                         {
-                            seachText.Clear();
+                            seachText.ClearTextByKey();
                             seachText.SendKeys(c.Nome);
                         }
                         else
@@ -526,7 +526,8 @@ namespace WhatsAppBot
             {
                 try
                 {
-                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div[1]/div[1]/div[3]/div/div[1]/div/label/div/div[2]"), TimeSpan.FromSeconds(1));                                                                                 
+                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
+                                                            
                 }
                 catch 
                 {
@@ -534,16 +535,19 @@ namespace WhatsAppBot
                     {
                         if (seachText == null)
                         {
-                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[2]"));
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[1]"));
                         }
                     }
                     catch { }
                 }
 
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-            }
+            }   
             return seachText;
         }
+        public static IWebElement SearchInput { get; set; }
+
+
         public Contato CarregarContato(DataGridViewCellCollection cells) 
         {
             return new Contato()
