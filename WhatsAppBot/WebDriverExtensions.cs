@@ -28,7 +28,14 @@ namespace WhatsAppBot
         public static void ClearTextByKey(this IWebElement element)
         {
             try { element.Click(); } catch { }
-            while (!string.IsNullOrEmpty(element.Text)) element.SendKeys(Keys.Backspace);
+            int i = 0;
+            var k = 0;
+            while (i++ < 70)
+            {
+                while (k++ < 2) { element.SendKeys(Keys.ArrowRight); }
+                k = 0;
+                element.SendKeys(Keys.Backspace);
+            }
         }
         public static List<string> GetElementAttributes(this IWebDriver driver, IWebElement element)
         {
