@@ -27,7 +27,7 @@ namespace WhatsAppBot
         private void ExibirExcecao(Exception ex)
         {
             ExceptionToFile(ex);
-            MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(null, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void carregarContatosToolStripMenuItem_Click(object sender, EventArgs e)
