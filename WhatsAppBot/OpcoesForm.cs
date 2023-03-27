@@ -102,7 +102,7 @@ namespace WhatsAppBot
             {
                 config.BuscarArquivos.Campos.Add(i, campos[i]);
             }
-            config.Mensagens = mensagensListBox.Items.Cast<string>().ToList();
+            config.Mensagens = mensagensListBox.Items.Cast<string>().Where(msg => !string.IsNullOrEmpty(msg?.Trim())).ToList();
 
             var jo = JsonConvert.SerializeObject(config, Formatting.Indented);
             File.WriteAllText("config.json", jo);

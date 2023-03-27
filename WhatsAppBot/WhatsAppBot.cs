@@ -121,6 +121,7 @@ namespace WhatsAppBot
         private void executarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+            config.Mensagens = config.Mensagens.Where(msg => !string.IsNullOrEmpty(msg?.Trim())).ToList();
             var seguir = false;
             for (int r = 0; r < contatosDataGridView.Rows.Count; r++)
             {
