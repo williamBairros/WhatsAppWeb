@@ -314,7 +314,7 @@ namespace WhatsAppBot
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
-            var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
+            var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
             text.SendKeys(contato.DefinirMensagem(mensagens));
             text.SendKeys(OpenQA.Selenium.Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
@@ -340,12 +340,15 @@ namespace WhatsAppBot
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
-            var input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button/input"));
+            var input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button/input"));
             input.SendKeys(arquivo);
             Thread.Sleep(2000);
             
             //driver.SecureFindAndSendKeys("{Enter}");
-            driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
+            //driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div"));
+
+            
             //driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]"));
         }
 
@@ -526,8 +529,7 @@ namespace WhatsAppBot
             {
                 try
                 {
-                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
-                                                            
+                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
                 }
                 catch 
                 {
@@ -535,7 +537,7 @@ namespace WhatsAppBot
                     {
                         if (seachText == null)
                         {
-                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div/div[1]/div/div/div[2]/div/div[1]"));
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"));
                         }
                     }
                     catch { }
