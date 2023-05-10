@@ -11,5 +11,6 @@ namespace WhatsAppBot
         public TipoDeProcura TipoDeProcura { get; set; }
         public BuscarArquivos BuscarArquivos { get; set; }
         public List<string> Mensagens { get; set; }
+        public bool Iphone { get; set; }
     }
 }

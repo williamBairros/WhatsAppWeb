@@ -209,7 +209,7 @@ namespace WhatsAppBot
                                                         {
                                                             if (arquivo != null && File.Exists(arquivo) && !c.ArquivosEnviados)
                                                             {
-                                                                EnviarArquivo(driver, c, arquivo);
+                                                                EnviarArquivo(driver, c, arquivo, config.Iphone);
                                                             }
                                                             Thread.Sleep(TimeSpan.FromSeconds(1));
                                                         }
@@ -326,7 +326,7 @@ namespace WhatsAppBot
             //sendButton.Click();
         }
 
-        private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo)
+        private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo, bool iphone)
         {
             AnexarButtonClick(driver);
             IEnumerable<IWebElement> elements = null;
@@ -341,7 +341,15 @@ namespace WhatsAppBot
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
-            var input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button/input"));
+            IWebElement input = null;
+            if (iphone)
+            {
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[5]/button/input"));
+            }
+            else
+            {
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button/input"));
+            }
             input.SendKeys(arquivo);
             Thread.Sleep(2000);
 

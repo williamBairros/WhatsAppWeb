@@ -97,6 +97,7 @@ namespace WhatsAppBot
             config.BuscarArquivos.Delimitador = delimitadorTextBox.Text;
             config.BuscarArquivos.DiretorioArquivos = diretorioArquivosTextBox.Text;
             config.BuscarArquivos.Campos = new Dictionary<int, string>();
+            config.Iphone = iphoneCheckBox.Checked;
             var campos = camposListBox.Items.Cast<string>().ToArray();
             for (var i = 0; i < campos.Length; i++) 
             {
@@ -121,6 +122,7 @@ namespace WhatsAppBot
                 diretorioArquivosTextBox.Text = config?.BuscarArquivos?.DiretorioArquivos;
                 config?.BuscarArquivos?.Campos?.Values?.ToList().ForEach(c => camposListBox.Items.Add(c));
                 mensagensListBox.Items.AddRange(config?.Mensagens?.Cast<object>().ToArray() ?? new object[] { });
+                iphoneCheckBox.Checked = config.Iphone;
             }
         }
 

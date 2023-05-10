@@ -58,8 +58,9 @@ namespace WhatsAppBot
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.addMensagenButton = new System.Windows.Forms.Button();
             this.deleteMensagenButton = new System.Windows.Forms.Button();
-            this.mensagemRichTextBox = new System.Windows.Forms.RichTextBox();
             this.novaMenagemButton = new System.Windows.Forms.Button();
+            this.mensagemRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.iphoneCheckBox = new System.Windows.Forms.CheckBox();
             this.x.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMinimoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMaximoiNumericUpDown)).BeginInit();
@@ -83,13 +84,14 @@ namespace WhatsAppBot
             this.x.Controls.Add(this.segundosDeProcuraNumericUpDown);
             this.x.Controls.Add(this.label4);
             this.x.Controls.Add(this.tipoProcuraComboBox);
+            this.x.Controls.Add(this.iphoneCheckBox);
             this.x.Controls.Add(this.groupBox1);
             this.x.Dock = System.Windows.Forms.DockStyle.Fill;
             this.x.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.x.Location = new System.Drawing.Point(3, 3);
             this.x.Margin = new System.Windows.Forms.Padding(4);
             this.x.Name = "x";
-            this.x.Size = new System.Drawing.Size(654, 524);
+            this.x.Size = new System.Drawing.Size(756, 637);
             this.x.TabIndex = 0;
             // 
             // label1
@@ -176,7 +178,7 @@ namespace WhatsAppBot
             this.groupBox1.Controls.Add(this.diretorioArquivosTextBox);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 210);
+            this.groupBox1.Location = new System.Drawing.Point(3, 245);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(646, 309);
             this.groupBox1.TabIndex = 8;
@@ -297,7 +299,7 @@ namespace WhatsAppBot
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(668, 561);
+            this.tabControl1.Size = new System.Drawing.Size(770, 674);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -306,7 +308,7 @@ namespace WhatsAppBot
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(660, 530);
+            this.tabPage1.Size = new System.Drawing.Size(762, 643);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Configurações";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -395,15 +397,6 @@ namespace WhatsAppBot
             this.deleteMensagenButton.UseVisualStyleBackColor = true;
             this.deleteMensagenButton.Click += new System.EventHandler(this.deleteMensagenButton_Click);
             // 
-            // mensagemRichTextBox
-            // 
-            this.mensagemRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mensagemRichTextBox.Location = new System.Drawing.Point(3, 3);
-            this.mensagemRichTextBox.Name = "mensagemRichTextBox";
-            this.mensagemRichTextBox.Size = new System.Drawing.Size(642, 77);
-            this.mensagemRichTextBox.TabIndex = 1;
-            this.mensagemRichTextBox.Text = "";
-            // 
             // novaMenagemButton
             // 
             this.novaMenagemButton.Location = new System.Drawing.Point(331, 3);
@@ -414,11 +407,31 @@ namespace WhatsAppBot
             this.novaMenagemButton.UseVisualStyleBackColor = true;
             this.novaMenagemButton.Click += new System.EventHandler(this.novaMenagemButton_Click);
             // 
+            // mensagemRichTextBox
+            // 
+            this.mensagemRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mensagemRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.mensagemRichTextBox.Name = "mensagemRichTextBox";
+            this.mensagemRichTextBox.Size = new System.Drawing.Size(642, 77);
+            this.mensagemRichTextBox.TabIndex = 1;
+            this.mensagemRichTextBox.Text = "";
+            // 
+            // iphoneCheckBox
+            // 
+            this.iphoneCheckBox.AutoSize = true;
+            this.iphoneCheckBox.Location = new System.Drawing.Point(6, 210);
+            this.iphoneCheckBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 10);
+            this.iphoneCheckBox.Name = "iphoneCheckBox";
+            this.iphoneCheckBox.Size = new System.Drawing.Size(101, 22);
+            this.iphoneCheckBox.TabIndex = 9;
+            this.iphoneCheckBox.Text = "checkBox1";
+            this.iphoneCheckBox.UseVisualStyleBackColor = true;
+            // 
             // OpcoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 561);
+            this.ClientSize = new System.Drawing.Size(770, 674);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -479,5 +492,6 @@ namespace WhatsAppBot
         private System.Windows.Forms.Button deleteMensagenButton;
         private System.Windows.Forms.RichTextBox mensagemRichTextBox;
         private System.Windows.Forms.Button novaMenagemButton;
+        private System.Windows.Forms.CheckBox iphoneCheckBox;
     }
 }
