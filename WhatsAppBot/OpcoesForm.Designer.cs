@@ -38,6 +38,7 @@ namespace WhatsAppBot
             this.segundosDeProcuraNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.tipoProcuraComboBox = new System.Windows.Forms.ComboBox();
+            this.iphoneCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.delCampoButton = new System.Windows.Forms.Button();
             this.addCompoButton = new System.Windows.Forms.Button();
@@ -60,7 +61,6 @@ namespace WhatsAppBot
             this.deleteMensagenButton = new System.Windows.Forms.Button();
             this.novaMenagemButton = new System.Windows.Forms.Button();
             this.mensagemRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.iphoneCheckBox = new System.Windows.Forms.CheckBox();
             this.x.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMinimoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervaloMaximoiNumericUpDown)).BeginInit();
@@ -163,6 +163,17 @@ namespace WhatsAppBot
             this.tipoProcuraComboBox.Name = "tipoProcuraComboBox";
             this.tipoProcuraComboBox.Size = new System.Drawing.Size(205, 26);
             this.tipoProcuraComboBox.TabIndex = 7;
+            // 
+            // iphoneCheckBox
+            // 
+            this.iphoneCheckBox.AutoSize = true;
+            this.iphoneCheckBox.Location = new System.Drawing.Point(6, 210);
+            this.iphoneCheckBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 10);
+            this.iphoneCheckBox.Name = "iphoneCheckBox";
+            this.iphoneCheckBox.Size = new System.Drawing.Size(71, 22);
+            this.iphoneCheckBox.TabIndex = 9;
+            this.iphoneCheckBox.Text = "Iphone";
+            this.iphoneCheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -319,7 +330,7 @@ namespace WhatsAppBot
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(660, 530);
+            this.tabPage2.Size = new System.Drawing.Size(762, 643);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mensagens";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -336,7 +347,7 @@ namespace WhatsAppBot
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.29008F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.70992F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(654, 524);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(756, 637);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // mensagensListBox
@@ -344,9 +355,9 @@ namespace WhatsAppBot
             this.mensagensListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mensagensListBox.FormattingEnabled = true;
             this.mensagensListBox.ItemHeight = 18;
-            this.mensagensListBox.Location = new System.Drawing.Point(3, 146);
+            this.mensagensListBox.Location = new System.Drawing.Point(3, 176);
             this.mensagensListBox.Name = "mensagensListBox";
-            this.mensagensListBox.Size = new System.Drawing.Size(648, 375);
+            this.mensagensListBox.Size = new System.Drawing.Size(750, 458);
             this.mensagensListBox.TabIndex = 0;
             this.mensagensListBox.SelectedIndexChanged += new System.EventHandler(this.mensagensListBox_SelectedIndexChanged);
             // 
@@ -362,7 +373,7 @@ namespace WhatsAppBot
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.58394F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.41606F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(648, 137);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(750, 167);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -371,9 +382,9 @@ namespace WhatsAppBot
             this.flowLayoutPanel1.Controls.Add(this.deleteMensagenButton);
             this.flowLayoutPanel1.Controls.Add(this.novaMenagemButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 86);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 104);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(642, 48);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 60);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // addMensagenButton
@@ -412,20 +423,9 @@ namespace WhatsAppBot
             this.mensagemRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mensagemRichTextBox.Location = new System.Drawing.Point(3, 3);
             this.mensagemRichTextBox.Name = "mensagemRichTextBox";
-            this.mensagemRichTextBox.Size = new System.Drawing.Size(642, 77);
+            this.mensagemRichTextBox.Size = new System.Drawing.Size(744, 95);
             this.mensagemRichTextBox.TabIndex = 1;
             this.mensagemRichTextBox.Text = "";
-            // 
-            // iphoneCheckBox
-            // 
-            this.iphoneCheckBox.AutoSize = true;
-            this.iphoneCheckBox.Location = new System.Drawing.Point(6, 210);
-            this.iphoneCheckBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 10);
-            this.iphoneCheckBox.Name = "iphoneCheckBox";
-            this.iphoneCheckBox.Size = new System.Drawing.Size(101, 22);
-            this.iphoneCheckBox.TabIndex = 9;
-            this.iphoneCheckBox.Text = "checkBox1";
-            this.iphoneCheckBox.UseVisualStyleBackColor = true;
             // 
             // OpcoesForm
             // 
