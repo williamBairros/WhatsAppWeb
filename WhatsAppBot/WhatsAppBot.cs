@@ -7,11 +7,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WhatsAppBot.Enuns;
+
 
 namespace WhatsAppBot
 {
@@ -118,6 +120,7 @@ namespace WhatsAppBot
 
         public static bool CANCELAR_EXECUCAO { get; set; }
         public static DataGridViewRowCollection ROWS { get; set; }
+        [STAThread]
         private void executarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
@@ -289,7 +292,7 @@ namespace WhatsAppBot
         }
         private static void AnexarButtonClick(IWebDriver driver)
         {
-            driver.SecureFindAndClick(By.CssSelector("span[data-icon='attach-menu-plus']"));
+            driver.SecureFindAndClick(By.CssSelector("span[data-icon='clip']"));
         }
         private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
@@ -326,6 +329,7 @@ namespace WhatsAppBot
             //sendButton.Click();
         }
 
+        [STAThread]
         private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo, bool iphone)
         {
             AnexarButtonClick(driver);
@@ -341,16 +345,39 @@ namespace WhatsAppBot
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
-            IWebElement input = null;
+            IWebElement button = null;
             if (iphone)
             {
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[4]/li/div/input"));
+                button = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[4]/li/div/input"));
             }
             else
             {
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[4]/li/div/input"));                                            
+                button = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button"));                                            
             }
-            input.SendKeys(arquivo);
+            button.Click();
+            Thread.Sleep(500);
+
+            // Cria um novo thread STA para realizar a operação de cópia da área de transferência
+            var staThread = new Thread(() =>
+            {
+                // Configura o apartamento de thread como STA antes de copiar o texto
+                Clipboard.SetText(arquivo);
+                Thread.Sleep(100);
+                ClipboardExample.CTRL_V();
+                Thread.Sleep(100);
+                SendKeys.SendWait("{ENTER}");
+                Thread.Sleep(100);
+            });
+
+            staThread.SetApartmentState(ApartmentState.STA);
+
+            staThread.Start();
+            staThread.Join();
+
+            //var inputs = driver.FindElements(By.TagName("input"))?.Where(e => e.SecureGetAttribute("accept") == "*").ToList();
+            //inputs.ForEach(input => { Console.WriteLine(1); input.SendKeys(arquivo); });
+            //var input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[2]/span/div/span/div/div/div[2]/div/input"));
+            //input.SendKeys(arquivo);
             Thread.Sleep(2000);
 
             //driver.SecureFindAndSendKeys("{Enter}");
@@ -670,6 +697,28 @@ namespace WhatsAppBot
         private void WhatsAppBot_Load(object sender, EventArgs e)
         {
             KillCrhomeDriver();
+        }
+    }
+
+
+    public class ClipboardExample
+    {
+        [DllImport("user32.dll")]
+        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
+        public const int KEYEVENTF_KEYUP = 0x0002;
+        public const int VK_CONTROL = 0x11;
+        public const int VK_V = 0x56;
+        
+        [STAThread]
+        public static void CTRL_V()
+        {
+            Thread.Sleep(2000);
+
+            keybd_event(VK_CONTROL, 0, 0, 0);
+            keybd_event(VK_V, 0, 0, 0);
+            keybd_event(VK_V, 0, KEYEVENTF_KEYUP, 0);
+            keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
         }
     }
 }
