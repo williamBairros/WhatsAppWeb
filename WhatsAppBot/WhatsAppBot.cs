@@ -348,7 +348,7 @@ namespace WhatsAppBot
             IWebElement button = null;
             if (iphone)
             {
-                button = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[4]/button"));
+                button = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[5]/button"));
             }
             else
             {
