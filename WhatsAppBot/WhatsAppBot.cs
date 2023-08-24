@@ -187,7 +187,7 @@ namespace WhatsAppBot
 
                                     try
                                     {
-                                        var tentativas = 3;
+                                        var tentativas = 1;
                                         while (tentativas > 0)
                                         {
                                             try
@@ -292,7 +292,7 @@ namespace WhatsAppBot
         }
         private static void AnexarButtonClick(IWebDriver driver)
         {
-            driver.SecureFindAndClick(By.CssSelector("span[data-icon='clip']"));
+            driver.SecureFindAndClick(By.CssSelector("span[data-icon='attach-menu-plus']"));
         }
         private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
@@ -335,7 +335,7 @@ namespace WhatsAppBot
         private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo, bool iphone)
         {
             AnexarButtonClick(driver);
-            IEnumerable<IWebElement> elements = null;
+            //IEnumerable<IWebElement> elements = null;
             /*while (elements?.Where(e => e.SecureGetAttribute("accept") == "*")?.FirstOrDefault() == null)
             {
                 try
@@ -382,27 +382,17 @@ namespace WhatsAppBot
             {
                 if (c.Telefone.Length == 11)
                 {
-                    seachText.SendKeys(c.Telefone);
-                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
-                    {
-                        seachText.ClearTextByKey();
-                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
-                    }
-                    else 
+                    seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
+                    if (VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         Thread.Sleep(TimeSpan.FromSeconds(1));
                         return true;
                     }
                 }
-                else 
+                else if (c.Telefone.Length == 10)
                 {
                     seachText.SendKeys(c.Telefone);
-                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
-                    {
-                        seachText.ClearTextByKey();
-                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
-                    }
-                    else 
+                    if (VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         Thread.Sleep(TimeSpan.FromSeconds(1));
                         return true;
@@ -411,56 +401,28 @@ namespace WhatsAppBot
             }
             else if (tipoDeBusca == TipoDeProcura.NomeETelefone) 
             {
-
+                seachText.ClearTextByKey();
                 if (c.Telefone.Length == 11)
                 {
-                    seachText.SendKeys(c.Telefone);
-                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
-                    {
-                        seachText.ClearTextByKey();
-                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
-
-                        if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura)) 
-                        {
-                            seachText.ClearTextByKey();
-                            seachText.SendKeys(c.Nome);
-                        }
-                        else 
-                        {
-                            Thread.Sleep(TimeSpan.FromSeconds(1));
-                            return true;
-                        }
-                    }
-                    else
+                    seachText.SendKeys($"{c.Telefone.Substring(0, 2)}{c.Telefone.Substring(3)}");
+                    if (VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         Thread.Sleep(TimeSpan.FromSeconds(1));
                         return true;
                     }
                 }
-                else
+                else if (c.Telefone.Length == 10)
                 {
                     seachText.SendKeys(c.Telefone);
-                    if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
-                    {
-                        seachText.ClearTextByKey();
-                        seachText.SendKeys($"{c.Telefone.Substring(0, 2)}9{c.Telefone.Substring(2)}");
-                        if (!VerificandoContatoSelecionado(driver, c, segundosDeProcura))
-                        {
-                            seachText.ClearTextByKey();
-                            seachText.SendKeys(c.Nome);
-                        }
-                        else
-                        {
-                            Thread.Sleep(TimeSpan.FromSeconds(1));
-                            return true;
-                        }
-                    }
-                    else
+                    if (VerificandoContatoSelecionado(driver, c, segundosDeProcura))
                     {
                         Thread.Sleep(TimeSpan.FromSeconds(1));
                         return true;
                     }
                 }
+
+                seachText.ClearTextByKey();
+                seachText.SendKeys(c.Nome);           
             }
             Thread.Sleep(TimeSpan.FromSeconds(1));
             return VerificandoContatoSelecionado(driver, c, segundosDeProcura);

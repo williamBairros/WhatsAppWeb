@@ -90,11 +90,11 @@ namespace WhatsAppBot
 
                     if (kvp.Value.ToLower() == "nome") 
                     {
-                        valorArquivo = valorArquivo.Replace(" ", "");
-                        valorContato = valorContato.Replace(" ", "");
+                        valorArquivo = valorArquivo.Replace(" ", "").Trim();
+                        valorContato = valorContato.Replace(" ", "").Trim();
                     }
 
-                    if (valorArquivo.ToLower() != valorContato.ToLower()) 
+                    if (valorArquivo.ToLower().Trim() != valorContato.ToLower().Trim()) 
                     {
                         return false;
                     }
