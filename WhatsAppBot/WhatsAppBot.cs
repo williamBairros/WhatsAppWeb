@@ -509,7 +509,7 @@ namespace WhatsAppBot
             {
                 try
                 {
-                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
+                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div"), TimeSpan.FromSeconds(1));
                 }
                 catch 
                 {
@@ -517,7 +517,7 @@ namespace WhatsAppBot
                     {
                         if (seachText == null)
                         {
-                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"));
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div"));
                         }
                     }
                     catch { }
