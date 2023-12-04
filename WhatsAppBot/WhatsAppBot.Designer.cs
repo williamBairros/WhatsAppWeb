@@ -151,7 +151,7 @@ namespace WhatsAppBot
             this.pararExecuçãoToolStripMenuItem.Name = "pararExecuçãoToolStripMenuItem";
             this.pararExecuçãoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.pararExecuçãoToolStripMenuItem.Text = "Parar execução";
-            this.pararExecuçãoToolStripMenuItem.Click += new System.EventHandler(this.pararExecuçãoToolStripMenuItem_Click);
+            this.pararExecuçãoToolStripMenuItem.Click += new System.EventHandler(this.pararExecucãoToolStripMenuItem_Click);
             // 
             // gerarArquivoVcfToolStripMenuItem
             // 
@@ -198,7 +198,7 @@ namespace WhatsAppBot
             this.opçõesToolStripMenuItem.Name = "opçõesToolStripMenuItem";
             this.opçõesToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.opçõesToolStripMenuItem.Text = "⚙️ Opções";
-            this.opçõesToolStripMenuItem.Click += new System.EventHandler(this.opçõesToolStripMenuItem_Click);
+            this.opçõesToolStripMenuItem.Click += new System.EventHandler(this.opcõesToolStripMenuItem_Click);
             // 
             // WhatsAppBot
             // 

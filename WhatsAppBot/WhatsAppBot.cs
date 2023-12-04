@@ -65,7 +65,7 @@ namespace WhatsAppBot
             DefineRowColor();
         }
 
-        private void opÃ§ÃµesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void opcõesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace WhatsAppBot
                     try
                     {
                         Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = false; });
-                        Invoke((MethodInvoker)delegate () { pararExecuÃ§Ã£oToolStripMenuItem.Enabled = true; });
+                        Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = true; });
 
                         config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
                         using (var driver = new ChromeDriver())
@@ -279,7 +279,7 @@ namespace WhatsAppBot
                     finally
                     {
                         Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = true; });
-                        Invoke((MethodInvoker)delegate () { pararExecuÃ§Ã£oToolStripMenuItem.Enabled = false; });
+                        Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = false; });
                         MessageBox.Show("Envios concluÃ­dos");
                         KillCrhomeDriver();
                     }
@@ -553,7 +553,7 @@ namespace WhatsAppBot
             };
         }
 
-        private void pararExecuÃ§Ã£oToolStripMenuItem_Click(object sender, EventArgs e)
+        private void pararExecucãoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
