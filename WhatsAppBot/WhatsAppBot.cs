@@ -229,7 +229,7 @@ namespace WhatsAppBot
 
         private void EnviadoMensagem(ChromeDriver driver, Contato contato)
         {
-            var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
+            var text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]"));
             text.SendKeys(contato.Mensagem);
             text.SendKeys(OpenQA.Selenium.Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
@@ -329,7 +329,7 @@ namespace WhatsAppBot
             {
                 try
                 {
-                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
+                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
@@ -337,7 +337,7 @@ namespace WhatsAppBot
                     {
                         if (seachText == null)
                         {
-                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]"));
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]"));
                         }
                     }
                     catch { }
@@ -432,18 +432,18 @@ namespace WhatsAppBot
                 {
                     var contatos = new List<string>
                     {
-                        "Cpf;Nome;Celular;SucessoEnvioMsg;SucessoEnvioArquivos;ContatoEncontrado"
+                        "Telefone;Mensagem"
                     };
 
                     if (MessageBox.Show(this, "Resetar coluna de contato encontrado?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         contatos.AddRange(contatosDataGridView.Rows.Cast<DataGridViewRow>().Select(r =>
-                            $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()};{r?.Cells[2]?.Value?.ToString()};0;0;").ToList());
+                            $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()}").ToList());
                     }
                     else
                     {
                         contatos.AddRange(contatosDataGridView.Rows.Cast<DataGridViewRow>().Select(r =>
-                                $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()};{r?.Cells[2]?.Value?.ToString()};0;0;{(r?.Cells[5]?.Value == null ? "" : (bool.Parse(r?.Cells[5]?.Value?.ToString().ToLower()) ? "1" : "0"))}").ToList());
+                                $"{r?.Cells[0]?.Value?.ToString()};{r?.Cells[1]?.Value?.ToString()}").ToList());
                     }
 
                     File.WriteAllLines(UltimoArquivoCarregado, contatos);

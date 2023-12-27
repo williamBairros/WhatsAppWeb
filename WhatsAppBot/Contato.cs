@@ -55,7 +55,7 @@ namespace WhatsAppBot
                         valorContato = valorContato.Replace(" ", "");
                     }
 
-                    if (valorArquivo.ToLower() != valorContato.ToLower()) 
+                    if (valorArquivo.ToLower() != valorContato?.ToLower()) 
                     {
                         return false;
                     }
