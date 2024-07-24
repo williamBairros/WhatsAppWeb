@@ -13,6 +13,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WhatsAppBot.Enuns;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace WhatsAppBot
@@ -199,7 +201,7 @@ namespace WhatsAppBot
 
                                                     if (!c.MensagemEnviada && !string.IsNullOrEmpty(c.DefinirMensagem(config.Mensagens)))
                                                     {
-                                                        EnviadoMensagem(driver, c, config.Mensagens, config.Iphone);
+                                                        EnviadoMensagem(driver, c, config.Mensagens, config.Business);
                                                         c.MensagemEnviada = true;
                                                         Invoke((MethodInvoker)delegate () { AtualizarEnvioContato(c, r, UltimoArquivoCarregado); });
                                                     }
@@ -212,7 +214,7 @@ namespace WhatsAppBot
                                                         {
                                                             if (arquivo != null && File.Exists(arquivo) && !c.ArquivosEnviados)
                                                             {
-                                                                EnviarArquivo(driver, c, arquivo, config.Iphone);
+                                                                EnviarArquivo(driver, c, arquivo, config.Business);
                                                             }
                                                             Thread.Sleep(TimeSpan.FromSeconds(1));
                                                         }
@@ -280,7 +282,7 @@ namespace WhatsAppBot
                     {
                         Invoke((MethodInvoker)delegate () { executarToolStripMenuItem.Enabled = true; });
                         Invoke((MethodInvoker)delegate () { pararExecuçãoToolStripMenuItem.Enabled = false; });
-                        MessageBox.Show("Envios concluÃ­dos");
+                        MessageBox.Show("Envios conclui­dos");
                         KillCrhomeDriver();
                     }
                 });
@@ -323,7 +325,7 @@ namespace WhatsAppBot
             if (iphone)
             {
                                                   
-                text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]"));
+                text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
             }
             else 
             {
@@ -346,22 +348,11 @@ namespace WhatsAppBot
         private static void EnviarArquivo(ChromeDriver driver, Contato contato, string arquivo, bool iphone)
         {
             AnexarButtonClick(driver);
-            //IEnumerable<IWebElement> elements = null;
-            /*while (elements?.Where(e => e.SecureGetAttribute("accept") == "*")?.FirstOrDefault() == null)
-            {
-                try
-                {
-                    elements = driver.FindElements(By.TagName("input"));
-                }
-                catch { }
-
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-            }*/
 
             IWebElement input = null;
             if (iphone)
             {
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/div[1]/li/div/input"));
             }
             else
             {                                 
@@ -371,15 +362,9 @@ namespace WhatsAppBot
 
             input.SendKeys(arquivo);
             Thread.Sleep(2000);
+                                               
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/div/span"));
 
-            //driver.SecureFindAndSendKeys("{Enter}");
-            //driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
-            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[2]/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
-            //driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div[2]/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div"));
-            //driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div"));
-
-            
-            //driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]"));
         }
 
 
@@ -520,8 +505,7 @@ namespace WhatsAppBot
             while (seachText == null || CANCELAR_EXECUCAO)
             {
                 try
-                {
-                                                            
+                {                                                          
                     seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
                 }
                 catch 

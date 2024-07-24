@@ -38,7 +38,7 @@ namespace WhatsAppBot
             this.segundosDeProcuraNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.tipoProcuraComboBox = new System.Windows.Forms.ComboBox();
-            this.iphoneCheckBox = new System.Windows.Forms.CheckBox();
+            this.businessCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.delCampoButton = new System.Windows.Forms.Button();
             this.addCompoButton = new System.Windows.Forms.Button();
@@ -84,7 +84,7 @@ namespace WhatsAppBot
             this.x.Controls.Add(this.segundosDeProcuraNumericUpDown);
             this.x.Controls.Add(this.label4);
             this.x.Controls.Add(this.tipoProcuraComboBox);
-            this.x.Controls.Add(this.iphoneCheckBox);
+            this.x.Controls.Add(this.businessCheckBox);
             this.x.Controls.Add(this.groupBox1);
             this.x.Dock = System.Windows.Forms.DockStyle.Fill;
             this.x.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -164,16 +164,17 @@ namespace WhatsAppBot
             this.tipoProcuraComboBox.Size = new System.Drawing.Size(205, 26);
             this.tipoProcuraComboBox.TabIndex = 7;
             // 
-            // iphoneCheckBox
+            // businessCheckBox
             // 
-            this.iphoneCheckBox.AutoSize = true;
-            this.iphoneCheckBox.Location = new System.Drawing.Point(6, 210);
-            this.iphoneCheckBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 10);
-            this.iphoneCheckBox.Name = "iphoneCheckBox";
-            this.iphoneCheckBox.Size = new System.Drawing.Size(71, 22);
-            this.iphoneCheckBox.TabIndex = 9;
-            this.iphoneCheckBox.Text = "Iphone";
-            this.iphoneCheckBox.UseVisualStyleBackColor = true;
+            this.businessCheckBox.AutoSize = true;
+            this.businessCheckBox.Location = new System.Drawing.Point(6, 210);
+            this.businessCheckBox.Margin = new System.Windows.Forms.Padding(6, 3, 3, 10);
+            this.businessCheckBox.Name = "businessCheckBox";
+            this.businessCheckBox.Size = new System.Drawing.Size(88, 22);
+            this.businessCheckBox.TabIndex = 9;
+            this.businessCheckBox.Text = "Business";
+            this.businessCheckBox.UseVisualStyleBackColor = true;
+            this.businessCheckBox.CheckedChanged += new System.EventHandler(this.businessCheckBox_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -492,6 +493,6 @@ namespace WhatsAppBot
         private System.Windows.Forms.Button deleteMensagenButton;
         private System.Windows.Forms.RichTextBox mensagemRichTextBox;
         private System.Windows.Forms.Button novaMenagemButton;
-        private System.Windows.Forms.CheckBox iphoneCheckBox;
+        private System.Windows.Forms.CheckBox businessCheckBox;
     }
 }
