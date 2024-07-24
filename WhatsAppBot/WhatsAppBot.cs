@@ -293,8 +293,8 @@ namespace WhatsAppBot
             }
         }
         private static void AnexarButtonClick(IWebDriver driver)
-        {
-            driver.SecureFindAndClick(By.CssSelector("span[data-icon='attach-menu-plus']"));
+        {         
+            driver.SecureFindAndClick(By.XPath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/div/span"));
         }
         private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
@@ -362,8 +362,8 @@ namespace WhatsAppBot
 
             input.SendKeys(arquivo);
             Thread.Sleep(2000);
-                                               
-            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/div/span"));
+
+            driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div[2]/div[2]/div[2]/span/div/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
 
         }
 
