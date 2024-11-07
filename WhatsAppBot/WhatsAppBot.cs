@@ -194,6 +194,7 @@ namespace WhatsAppBot
                                         {
                                             try
                                             {
+                                                seachText = WaitLogin(driver);
                                                 if (SetarContato(c, driver, seachText, TimeSpan.FromSeconds(config.SegundosDeProcura), config.TipoDeProcura))
                                                 {
                                                     c.ContatoEncontrado = true;
@@ -293,8 +294,8 @@ namespace WhatsAppBot
             }
         }
         private static void AnexarButtonClick(IWebDriver driver)
-        {         
-            driver.SecureFindAndClick(By.XPath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/div/span"));
+        {                                       
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/div/div/span"));
         }
         private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
@@ -320,22 +321,30 @@ namespace WhatsAppBot
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem());
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
             //driver.SecureFindAndSendKeys(By.XPath("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"), contato.DefinirMensagem(mensagens));
-
             IWebElement text = null;
-            if (iphone)
-            {
-                                                  
-                text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"));
+            try
+            {              
+                if (iphone)
+                {
+
+                    text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[1]/div[2]/div[1]"));
+                }
+                else
+                {
+                    text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]"));
+                }
             }
-            else 
+            catch
             {
-                text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]"));
+                throw;
             }
 
             text.SendKeys(contato.DefinirMensagem(mensagens));
-            driver.SecureFindAndClick(By.XPath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[2]/button/span"));
             //text.SendKeys(OpenQA.Selenium.Keys.Enter);
+            ///html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[2]/button
             
+            ////*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span
             Thread.Sleep(TimeSpan.FromSeconds(2));
             
             //var sendButton = driver.FindElement(By.CssSelector("span[data-icon='send']"));
@@ -351,20 +360,21 @@ namespace WhatsAppBot
 
             IWebElement input = null;
             if (iphone)
-            {
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/div[1]/li/div/input"));
+            {                                                   
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));
+                //html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/div[1]/li/div/input -- ANTERIOR
             }
             else
             {                                 
                 input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));
+                                                    
             }
 
 
             input.SendKeys(arquivo);
             Thread.Sleep(2000);
 
-            driver.SecureFindAndClick(By.XPath("//*[@id=\"app\"]/div/div[2]/div[2]/div[2]/span/div/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
-
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[2]/div[2]/span/div/div/div/div[2]/div/div[2]/div[2]/div/div/span"));
         }
 
 
@@ -505,25 +515,26 @@ namespace WhatsAppBot
             while (seachText == null || CANCELAR_EXECUCAO)
             {
                 try
-                {                                                          
-                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]"), TimeSpan.FromSeconds(1));
+                {
+                    seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[3]/div/div[1]/div/div[2]/div[2]/div/div/p"), TimeSpan.FromSeconds(1));
                 }
-                catch 
+                catch
                 {
                     try
                     {
                         if (seachText == null)
                         {
-                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/div/div[1]"));
+                            seachText = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[3]/div/div[1]/div/div[2]/div[2]/div/div/p"));
                         }
                     }
                     catch { }
                 }
 
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-            }   
+            }
             return seachText;
         }
+
         public static IWebElement SearchInput { get; set; }
 
 
@@ -544,7 +555,7 @@ namespace WhatsAppBot
         {
             try
             {
-                CANCELAR_EXECUCAO = true; 
+                CANCELAR_EXECUCAO = false; 
             }
             catch (Exception ex)
             {

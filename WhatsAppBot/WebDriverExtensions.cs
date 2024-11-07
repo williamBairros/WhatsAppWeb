@@ -27,9 +27,9 @@ namespace WhatsAppBot
 
         public static void ClearTextByKey(this IWebElement element)
         {
-            try { element.Click(); } catch { }
+            try { element.Click(); } catch {  }
             int i = 0;
-            var k = 0;
+            var k = 0;        
             while (i++ < 70 && !string.IsNullOrEmpty(element.Text))
             {
                 while (k++ < 2) { element.SendKeys(Keys.ArrowRight); }
