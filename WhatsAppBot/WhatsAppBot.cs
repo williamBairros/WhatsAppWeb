@@ -295,7 +295,8 @@ namespace WhatsAppBot
         }
         private static void AnexarButtonClick(IWebDriver driver)
         {                                       
-            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/div/div/span"));
+            driver.SecureFindAndClick(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div[2]/div/div/div/span"));                               
+            //  /html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/div/div/span - ANTERIOR
         }
         private void AtualizarEnvioContato(Contato c, int indexRow, string nomeArquivo)
         {
@@ -327,8 +328,8 @@ namespace WhatsAppBot
                 if (iphone)
                 {
 
-                    text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[1]/div[2]/div[1]"));
-                }
+                    text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[1]/div/div[1]"));
+                }   ///html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[2]/div[1]/div[2]/div[1] -- anterior
                 else
                 {
                     text = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div[2]/div[1]"));
@@ -361,13 +362,12 @@ namespace WhatsAppBot
             IWebElement input = null;
             if (iphone)
             {                                                   
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));
-                //html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/div[1]/li/div/input -- ANTERIOR
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div[2]/div/span/div/ul/div/div[1]/li/div/input"));
+                ///html/body/div[1]/div/div/div[3]/div[4]/div/footer/div[1]/div/span/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input -- ANTERIOR
             }
             else
             {                                 
-                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));
-                                                    
+                input = driver.SecureFind(By.XPath("/html/body/div[1]/div/div/div[2]/div[4]/div/footer/div[1]/div/span[2]/div/div[1]/div/div/span/div/ul/div/div[1]/li/div/input"));                              
             }
 
 
